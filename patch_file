@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# patchfile filename [ new-file-dir [ backup-dir ] ]
+# replaces a file in /etc with a new one, saving a backup
+
+OLD=$1
+NEW=${2:-./tools/linode-etc}
+BKUP=${3:-./backups}
+TS=`date +"%Y%m%d.%H%M"`
+
+# If the old file and a patch file don't exist, bail
+[ -f /etc/$OLD -a -f $NEW/$OLD.patch ] || exit 1
+
+mkdir -p $( dirname $BKUP/$OLD )
+
+patch --verbose --directory=/etc --backup --strip=1 < $NEW/$OLD.patch
+ERR=$?
+
+# If there was an error, restore the original file
+if [ $ERR ]; then
+  [ -f /etc/$OLD.orig ] && mv -f /etc/$OLD.orig /etc/$OLD
+else
+  [ -f /etc/$OLD.orig ] && mv -f /etc/$OLD.orig $BACKUP/$OLD-$TS
+fi
+
+exit $ERR

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+./replace_file gsl-motd-logo.txt
+./replace_file update-motd.d/00-0logo
+
+[ -x /usr/games/fortune ] || apt install fortune-mod fortunes-min fortunes fortunes-bofh-excuses

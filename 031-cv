@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+curl -LsS https://download.civicrm.org/cv/cv.phar -o /usr/local/bin/cv && sudo chmod +x /usr/local/bin/cv

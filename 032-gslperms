@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ ! -d ./tools/gslperms ]; then
+  cd ./tools
+  git clone https://gist.github.com/axon-obriend/4eff8ef4b815459d0da03dcdf362e7c8 gslperms
+  cd ..
+fi
+cd ./tools/gslperms
+git pull
+cp ./gslperms /usr/local/sbin/gslperms

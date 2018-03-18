@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# replace_file filename [ new-file-dir [ backup-dir ] ]
+# replaces a file in /etc with a new one, saving a backup
+
+OLD=$1
+NEW=${2:-./tools/linode-etc}
+BKUP=${3:-./backups}
+TS=`date +"%Y%m%d.%H%M"`
+
+# If the new file doesn't exist, bail
+[ -f $NEW/$OLD ] || exit 1
+
+[ -f /etc/$OLD ] && mkdir -p $( dirname $BKUP/$OLD ) && mv /etc/$OLD $BKUP/$OLD-$TS
+
+cp $NEW/$OLD /etc/$OLD
+
+# If there was an error, restore the original file
+[ ! $? -a -f $BKUP/$OLD-$TS ] && mv -f $BKUP/$OLD-$TS /etc/$OLD
+
+exit $ERR

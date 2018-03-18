@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -x
+
+./replace_file mysql/mysql.conf.d/mysqld.cnf
+
+./replace_file mysql/mysql.conf.d/prompt.cnf
+./replace_file mysql/mysql.conf.d/sql-mode.cnf
+./replace_file mysql/mysql.conf.d/max-connections.cnf
+./replace_file mysql/mysql.conf.d/fine-tuning.cnf
+./replace_file mysql/mysql.conf.d/query-cache.cnf
+./replace_file mysql/mysql.conf.d/query-logging.cnf
+./replace_file mysql/mysql.conf.d/innodb.cnf
+
+# Check for higher-memory VPS configurations
+MEM_MB=$(( `grep MemTotal /proc/meminfo | awk '{print $2}'` / 1024 ))
+[ $MEM_MB -gt 7000 ] && ./replace_file mysql/mysql.conf.d/innodb.cnf-8gb && mv -f /etc/mysql/mysql.conf.d/innodb.cnf-8gb /etc/mysql/mysql.conf.d/innodb.cnf
+
+service mysql restart

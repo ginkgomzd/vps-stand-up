@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+SITE=$1
+
+[ -n "$2" ] && PREFIX="$2-"
+
+[ -x /usr/sbin/apache2 ] || apt install apache2 apache2-bin apache2-data apache2-utils
+a2enmod rewrite && a2enmod ssl && apachectl restart
+
+if [ ! -f /usr/local/sbin/glsperms ]; then
+  echo 'The gslperms utility is not installed!'
+  exit 1
+else
+  gslperms sites /var/www
+fi
+
+if [ ! -z "$SITE" ]; then
+
+  gslperms project $SITE
+  cp ./tools/bad-bot-blocker/.htaccess /var/www/$SITE/htdocs/.htaccess-nobadbots
+
+  mkdir -p /var/log/apache2/$SITE
+  chown root:adm /var/log/apache2/$SITE
+
+  sed -e "s/%%SITE%%/$SITE/" 999-site.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE.conf
+  sed -e "s/%%SITE%%/$SITE/" 999-site-ssl.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE-ssl.conf
+  a2ensite ${PREFIX}$SITE
+  apachectl restart
+
+fi

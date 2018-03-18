@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+[ -d /usr/local/composer ] || exit 1
+cd /usr/local/composer
+composer require wp-cli/wp-cli && {
+  ln -s /usr/local/composer/vendor/wp-cli/wp-cli/bin/wp /usr/local/bin/wp ;
+  ln -s /usr/local/composer/vendor/wp-cli/wp-cli/bin/wp /usr/local/bin/wp-cli ;
+}

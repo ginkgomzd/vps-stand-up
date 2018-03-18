@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -x /usr/bin/fail2ban-server ] || apt install fail2ban
+
+if [ -d /etc/fail2ban ]; then
+  replace_file fail2ban/paths-overrides.local
+  replace_file fail2ban/jail.local
+  cp -vp ./tools/linode-etc/fail2ban/filter.d/* /etc/fail2ban/filter.d
+fi
+
+sudo fail2ban restart

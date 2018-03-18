@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+[ -x /usr/sbin/logwatch ] || apt install logwatch
+
+if [ -d /etc/logwatch/conf ]; then
+  ./replace_file logwatch/conf/logwatch.conf
+  ./replace_file logwatch/conf/logfiles/http.conf
+  ./replace_file logwatch/conf/logfiles/http-error.conf
+fi
+
+if [ -d /etc/logwatch/scripts/services ]; then
+  ./replace_file logwatch/scripts/services/sshd
+  ./replace_file logwatch/scripts/services/sudo
+fi

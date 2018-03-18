@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+if [ -d /etc/sudoers.d ]; then
+  ./replace_file sudoers.d/logging
+  ./replace_file sudoers.d/maint
+fi

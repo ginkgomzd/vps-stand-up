@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+[ -d /usr/local/composer ] || exit 1
+cd /usr/local/composer
+composer require drush/drush && ln -s /usr/local/composer/vendor/drush/drush/drush /usr/local/bin/drush
