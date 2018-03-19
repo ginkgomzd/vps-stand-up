@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # replace_file filename [ new-file-dir [ backup-dir ] ]
-# replaces a file in /etc with a new one, saving a backup
+#     replaces a file in /etc with a new one, saving a backup
+#     if an orginal file doesn't exist, create it
 
 OLD=$1
 NEW=${2:-./tools/linode-etc}
