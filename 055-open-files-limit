@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
+./patch_file pam.d/common-session && ./patch_file pam.d/common-session-noninteractive && /usr/sbin/pam-auth-update
 ./replace_file security/limits.d/01-mysql.conf
-./patch_file init/mysql.conf
 ./replace_file sysctl.d/20-open-files.conf
-./replace_file systemd/system/mysql.service.d/override.conf
-./patch_file pam.d/common-session
-./patch_file pam.d/common-session-noninteractive
+./replace_file systemd/system/mysql.service.d/override.conf && systemctl daemon-reload
+service mysql restart
