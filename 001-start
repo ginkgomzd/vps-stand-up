@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Reset PHP and use alternate repo
 apt purge php-common
 rm -rf /etc/php/*
@@ -27,3 +29,5 @@ git clone https://gist.github.com/axon-obriend/4eff8ef4b815459d0da03dcdf362e7c8 
 git clone https://ginkgo-obriend@bitbucket.org/ginkgostreet/env-utils-v3.git
 git clone https://github.com/ginkgostreet/bad-bot-blocker.git
 cd ..
+
+./001-step2
