@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-S=${1:-$( hostname -s )}
-D=${2:-$( hostname -d )}
+S=${1:-$( hostname -s )}	# Selector
+D=${2:-$( hostname -d )}	# Domain
 
 [ -f /etc/opendkim.conf ] || apt install opendkim || exit 1
 [ -x /usr/bin/opendkim-genkey ] || apt install opendkim-tools || exit 1
