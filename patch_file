@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # patchfile filename [ new-file-dir [ backup-dir ] ]
 # replaces a file in /etc with a new one, saving a backup
-set -x
 
 OLD=$1
 NEW=${2:-./tools/linode-etc}
