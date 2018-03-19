@@ -16,6 +16,7 @@
   ./040-apache		test2.ginkgostreet.com		# Apache vhost
   ./050-mysql
   ./055-open-files-limit
+  ./057-mysqltuner
   ./070-postfix
   ./075-opendkim					# Set up default DKIM
 # ./075-opendkim	civicrm		example.org	# Additional selector / domain
