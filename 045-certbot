@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+H=$1
+
+[ -x /usr/bin/certbot ] || apt install python-certbot-apache
+[ "`certbot --version`" '<' 'certbot 0.21' ] || apt install --only-upgrade certbot && apt autoremove
+
+nslookup $H. > /dev/null || exit 1
+
+certbot --apache --preferred-challenge=http --allow-subset-of-names -d $H -d www.$H
