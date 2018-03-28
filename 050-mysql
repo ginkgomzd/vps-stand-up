@@ -2,6 +2,7 @@
 
 ./replace_file mysql/mysql.conf.d/mysqld.cnf
 
+./replace_file mysql/mysql.conf.d/charset.cnf
 ./replace_file mysql/mysql.conf.d/prompt.cnf
 ./replace_file mysql/mysql.conf.d/sql-mode.cnf
 ./replace_file mysql/mysql.conf.d/max-connections.cnf
