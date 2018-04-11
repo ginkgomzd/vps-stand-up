@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+[ -f /etc/ssh/port22-deprecated.txt ] && { echo "SSHd configuration already complete"; exit 0; }
+
+./replace_file ssh/port22-deprecated.txt
+./replace_file ssh/sshd_config
