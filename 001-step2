@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-  ./002-hostname	test.ginkgostreet.com		# This VPS's hostname
-  ./003-tzdata 		'America/New_York'		# Time zone
-  ./004-unattended-upgrades
+  ./005-hostname	test.ginkgostreet.com		# This VPS's hostname
+  ./009-tzdata 		'America/New_York'		# Time zone
+  ./010-sshd-keys
+  ./012-sshd
+  ./015-unattended-upgrades
   ./023-php5.6
   ./023-php5.6-fpm
 # ./024-php7.0
