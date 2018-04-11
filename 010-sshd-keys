@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# 
+# sshd-keys [ backupdir ]
+# Backs up and regenerates host SSH keys
+
+pushd /etc > /dev/null
+KEYFILES=$( ls -1 ssh/ssh_host*key* )
+BKUP=${1:-./backups}
+TS=`date +"%Y%m%d.%H%M"`
+
+mkdir -p $( dirname $BKUP/ssh )
+
+for OLD IN $KEYFILES; do
+  mv /etc/$OLD $BKUP/$OLD-$TS
+  ERR=$?
+  # If there was an error, restore the original file
+  [ ! $ERR -a -f $BKUP/$OLD-$TS ] && mv -f $BKUP/$OLD-$TS /etc/$OLD
+done
+popd > /dev/null
+
+echo "Restarting SSHd - this should trigger generation of new keys"
+service sshd restart 
+
+exit $ERR
