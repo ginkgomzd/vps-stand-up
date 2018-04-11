@@ -14,8 +14,9 @@ TS=`date +"%Y%m%d.%H%M"`
 [ -f /etc/$OLD ] && mkdir -p $( dirname $BKUP/$OLD ) && mv /etc/$OLD $BKUP/$OLD-$TS
 [ -d $( dirname /etc/$OLD ) ] || mkdir -p $( dirname /etc/$OLD )
 cp $NEW/$OLD /etc/$OLD
+ERR=$?
 
 # If there was an error, restore the original file
-[ ! $? -a -f $BKUP/$OLD-$TS ] && mv -f $BKUP/$OLD-$TS /etc/$OLD
+[ ! $ERR -a -f $BKUP/$OLD-$TS ] && mv -f $BKUP/$OLD-$TS /etc/$OLD
 
 exit $ERR
