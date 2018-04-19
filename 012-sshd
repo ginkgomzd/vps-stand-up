@@ -4,3 +4,4 @@
 
 ./replace_file ssh/port22-deprecated.txt
 ./replace_file ssh/sshd_config
+service sshd restart
