@@ -1,30 +1,32 @@
 #!/usr/bin/env bash
 
-  ./005-hostname	test.ginkgostreet.com		# This VPS's hostname
-  ./009-tzdata 		'America/New_York'		# Time zone
-  ./010-sshd-keys
-  ./012-sshd
-  ./015-unattended-upgrades
-  ./023-php5.6
-  ./023-php5.6-fpm
-# ./024-php7.0
-# ./024-php7.0-fpm
-  ./030-composer
-  ./030-drush
-  ./030-wp-cli
-  ./031-cv
-  ./032-gslperms
-  ./040-apache		test.ginkgostreet.com		# Apache vhost
-  ./040-apache		test2.ginkgostreet.com		# Apache vhost
-  ./050-mysql
-  ./055-open-files-limit
-  ./057-mysqltuner
-  ./070-postfix
-  ./075-opendkim					# Set up default DKIM
-# ./075-opendkim	civicrm		example.org	# Additional selector / domain
-  ./080-phpmyadmin
-  ./084-sudoers
-  ./085-fail2ban
-  ./086-logwatch
-  ./087-logrotate
-  ./090-gsl-logo
+# refresh_repo url [ dir ]
+# Clones repo from 'url' (into 'dir' if provided) or does a "git pull"
+refresh_repo () {
+  URL="$1"
+  [ ! "$1" ] && { echo "usage: refresh_repo url [ dir ]"; echo "Error: No URL provided"; exit 1; }
+  if [ "$2" ]; then
+    D="$2"
+  else
+    D=$( basename -s .git "$1" )
+  fi
+  if [ ! -d $D ]; then
+    git clone "$URL" "$D"
+  else
+    pushd "$D" > /dev/null
+    git pull
+    popd > /dev/null
+  fi
+}
+
+
+# Get standard tools
+[ ! -d ./tools ] && mkdir ./tools
+cd ./tools
+refresh_repo https://ginkgo-obriend@bitbucket.org/ginkgo-obriend/linode-etc.git
+refresh_repo https://github.com/axon-obriend/backup-mysql.git
+refresh_repo https://gist.github.com/axon-obriend/4eff8ef4b815459d0da03dcdf362e7c8 gslperms
+refresh_repo https://ginkgo-obriend@bitbucket.org/ginkgostreet/env-utils-v3.git
+refresh_repo https://github.com/ginkgostreet/bad-bot-blocker.git
+wget https://sourceforge.net/projects/rkhunter/files/rkhunter/1.4.6/rkhunter-1.4.6.tar.gz && tar xvf rkhunter-1.4.6.tar.gz
+cd ..
