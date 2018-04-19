@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+  ./005-hostname	test.ginkgostreet.com		# This VPS's hostname
+  ./009-tzdata 		'America/New_York'		# Time zone
+  ./010-sshd-keys
+  ./012-sshd
+  ./015-unattended-upgrades
+  ./023-php5.6
+  ./023-php5.6-fpm
+# ./024-php7.0
+# ./024-php7.0-fpm
+  ./030-composer
+  ./030-drush
+  ./030-wp-cli
+  ./031-cv
+  ./032-gslperms
+  ./040-apache		test.ginkgostreet.com		# Apache vhost
+  ./040-apache		test2.ginkgostreet.com		# Apache vhost
+  ./050-mysql
+  ./055-open-files-limit
+  ./057-mysqltuner
+  ./070-postfix
+  ./075-opendkim					# Set up default DKIM
+# ./075-opendkim	civicrm		example.org	# Additional selector / domain
+  ./080-phpmyadmin
+  ./084-sudoers
+  ./085-fail2ban
+  ./086-logwatch
+  ./087-logrotate
+  ./090-gsl-logo
