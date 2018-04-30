@@ -2,8 +2,12 @@
 H=$1
 
 [ -x /usr/bin/certbot ] || apt install python-certbot-apache
-[ "`certbot --version`" '<' 'certbot 0.21' ] || apt install --only-upgrade certbot && apt autoremove
 
-nslookup $H. > /dev/null || exit 1
+# If certbot isn't at least v0.21, try and upgrade
+[ -x /usr/bin/certbot ] && [ "`certbot --version`" '>' 'certbot 0.21' ] || apt install --only-upgrade certbot
 
-certbot --apache --preferred-challenge=http --allow-subset-of-names -d $H -d www.$H
+# If we were passed a hostname, attempt to create the certificate
+if [ "$H" ]; then
+  nslookup $H. > /dev/null || { echo "Could not resolve host $H" ; exit 1 ; }
+  certbot --apache --allow-subset-of-names -d $H -d www.$H
+fi
