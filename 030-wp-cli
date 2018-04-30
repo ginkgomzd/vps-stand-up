@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-[ -d /usr/local/composer ] || exit 1
+[ -d /usr/local/composer ] || { echo "Error: composer not installed" ; exit 1 ; }
+[ `which wp-cli` ] && { echo "Wordpress CLI is already installed" ; exit 0 ; }
+
 cd /usr/local/composer
 composer require wp-cli/wp-cli && {
   ln -s /usr/local/composer/vendor/wp-cli/wp-cli/bin/wp /usr/local/bin/wp ;
