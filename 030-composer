@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 [ ! -d /usr/local/composer ] && mkdir -p /usr/local/composer
-[ -f /usr/local/composer/composer ] && { echo "Composer already installed" ; exit 0 }
+[ -f /usr/local/composer/composer ] && { echo "Composer already installed" ; exit 0 ; }
 cd /usr/local/composer
 
 EXPECTED_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig)
