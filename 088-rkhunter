@@ -4,7 +4,7 @@
 apt list --installed | grep rkhunter && apt purge rkhunter
 
 pushd ./tools/rkhunter-1.4.6
-./install.sh --layout /usr --install
+./installer.sh --layout /usr --install
 rkhunter --update
 rkhunter --propupd
 rkhunter --pkgmgr DPKG --check --skip-keypress
