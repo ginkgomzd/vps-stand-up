@@ -3,7 +3,7 @@
 [ `which drush` ] && { echo "Drush is already installed" ; exit 0 ; }
 
 cd /usr/local/composer
-composer require drush/drush && ln -s /usr/local/composer/vendor/drush/drush/drush /usr/local/bin/drush
+composer require drush/drush:^8 && ln -s /usr/local/composer/vendor/drush/drush/drush /usr/local/bin/drush
 
 # Explicitly use PHP 5.6 for Drush if it's there
 [ -x /usr/bin/php5.6 ] && replace_file profile.d/drush.sh
