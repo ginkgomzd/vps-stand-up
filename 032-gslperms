@@ -2,6 +2,7 @@
 
 if [ ! -d ./tools/gslperms ]; then
   cd ./tools
+  # DEPRECATED; use https://bitbucket.org/ginkgostreet/env-utils-v3/src/linode-1.0/tools/
   git clone https://gist.github.com/axon-obriend/4eff8ef4b815459d0da03dcdf362e7c8 gslperms
   cd ..
 fi
