@@ -53,3 +53,7 @@ system.rkhunter:
 # resource:
 # https://www.vultr.com/docs/how-to-install-rkhunter-on-ubuntu
 
+
+# TODO:
+# Unclear if these packages are needed:
+# software-properties-common python-software-properties
