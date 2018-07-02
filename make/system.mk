@@ -2,7 +2,8 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-all: system.lamp
+all: system.lamp system.acl system.upgrades system.bsd-mailx system.fail2ban \
+	system.logrotate system.logwatch system.certbot system.rkhunter
 
 system.lamp:
 	# install lamp-server meta-package (^)
