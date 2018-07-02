@@ -12,5 +12,5 @@ prereqs:
 	$(MAKE) -f make/prereqs.mk
 
 .PHONY: system
-system:
+system: prereqs vendor
 	$(MAKE) -f make/system.mk
