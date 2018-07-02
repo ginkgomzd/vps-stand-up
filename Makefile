@@ -14,3 +14,7 @@ prereqs:
 .PHONY: system
 system: prereqs vendor
 	$(MAKE) -f make/system.mk
+
+.PHONY: web-utils
+web-utils: prereqs
+	$(MAKE) -f make/web-utils.mk
