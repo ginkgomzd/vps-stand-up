@@ -11,3 +11,7 @@ wget:
 .PHONY: git
 git:
 	@ $(call install-package, git)
+
+.PHONY: debconf-utils
+debconf-utils:
+	@ $(call install-package, debconf-utils)
