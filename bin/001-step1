@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
-
 # Reset PHP and use alternate repo
 apt purge php-common
 rm -rf /etc/php/*
@@ -19,16 +17,3 @@ apt install acl apt-file debconf-utils git
 apt install unattended-upgrades bsd-mailx
 apt install fail2ban rkhunter
 apt install logrotate logwatch
-
-# Get standard tools
-[ ! -d ./tools ] && mkdir ./tools
-cd ./tools
-git clone https://ginkgo-obriend@bitbucket.org/ginkgo-obriend/linode-etc.git
-git clone https://github.com/axon-obriend/backup-mysql.git
-git clone https://gist.github.com/axon-obriend/4eff8ef4b815459d0da03dcdf362e7c8 gslperms
-git clone https://ginkgo-obriend@bitbucket.org/ginkgostreet/env-utils-v3.git
-git clone https://github.com/ginkgostreet/bad-bot-blocker.git
-wget https://sourceforge.net/projects/rkhunter/files/rkhunter/1.4.6/rkhunter-1.4.6.tar.gz && tar xvf rkhunter-1.4.6.tar.gz
-cd ..
-
-./001-step2
