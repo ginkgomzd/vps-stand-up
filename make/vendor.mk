@@ -1,5 +1,10 @@
 
-all: vendor/linode-etc vendor/backup-mysql vendor/env-utils vendor/bad-bot-blocker vendor/rkhunter
+all: vendor.keyscan vendor/linode-etc vendor/backup-mysql vendor/env-utils vendor/bad-bot-blocker vendor/rkhunter
+
+vendor.keyscan:
+	test -d ~/.ssh || mkdir ~/.ssh
+	ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+	ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
 
 vendor/linode-etc:
 	git clone git@bitbucket.org:ginkgostreet/linode-etc.git vendor/linode-etc
