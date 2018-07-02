@@ -40,7 +40,7 @@ system.certbot:
 	@touch system.certbot
 
 system.rkhunter:
-	vendor/rkhunter ./installer.sh --install
+	cd vendor/rkhunter/ && ./installer.sh --install
 	@ touch system.rkhunter
 
 # TODO:
