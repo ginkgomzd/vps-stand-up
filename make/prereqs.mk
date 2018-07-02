@@ -1,4 +1,6 @@
-include make/inc.functions.mk
+
+this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
+include $(this-dir)/inc.functions.mk
 
 all: wget git
 
