@@ -9,4 +9,5 @@ wget:
 	@ $(call install-package, wget)
 
 .PHONY: git
+git:
 	@ $(call install-package, git)
