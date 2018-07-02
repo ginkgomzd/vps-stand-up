@@ -10,3 +10,7 @@ vendor:
 .PHONY: prereqs
 prereqs:
 	$(MAKE) -f make/prereqs.mk
+
+.PHONY: webserver
+webserver:
+	$(MAKE) -f make/webserver.mk
