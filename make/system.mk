@@ -38,3 +38,18 @@ system.certbot:
 	$(call install-package, certbot)
 	@touch system.certbot
 
+system.rkhunter:
+	vendor/rkhunter ./installer.sh --install
+	@ touch system.rkhunter
+
+# TODO:
+# don't think the following should have been part of the install:
+# How do we invoke rkhunter regularly?
+#
+# rkhunter --pkgmgr DPKG --check --skip-keypress
+# rkhunter --update
+# rkhunter --propupd
+#
+# resource:
+# https://www.vultr.com/docs/how-to-install-rkhunter-on-ubuntu
+
