@@ -44,14 +44,15 @@ system.rkhunter:
 
 # TODO:
 # don't think the following should have been part of the install:
-# How do we invoke rkhunter regularly?
+# Set-up a cron-job?
 #
 # rkhunter --pkgmgr DPKG --check --skip-keypress
 # rkhunter --update
 # rkhunter --propupd
 #
-# resource:
+# resources:
 # https://www.vultr.com/docs/how-to-install-rkhunter-on-ubuntu
+# https://www.albennet.com/installrkhunter.php
 
 
 # TODO:
