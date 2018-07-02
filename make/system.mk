@@ -33,3 +33,8 @@ system.logrotate:
 system.logwatch:
 	$(call install-package, logwatch)
 	@ touch system.logwatch
+
+system.certbot:
+	$(call install-package, certbot)
+	@touch system.certbot
+
