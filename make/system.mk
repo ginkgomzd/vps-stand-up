@@ -7,7 +7,7 @@ all: system.lamp
 system.lamp:
 	# install lamp-server meta-package (^)
 	# -y because, for some reason, non-interactive is not enough; maybe because is a meta-package?
-	apt -yq install lamp-server^
+	sudo apt -yq install lamp-server^
 	@ touch system.lamp
 
 system.acl:
