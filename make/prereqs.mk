@@ -18,5 +18,5 @@ debconf-utils:
 
 repo.certbot:
 	# Add the repo for CertBot/Let's Encrypt
-	sudo add-apt-repository ppa:certbot/certbot
+	sudo add-apt-repository -y ppa:certbot/certbot
 	touch repo.certbot
