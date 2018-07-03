@@ -3,9 +3,6 @@ SITE=$1
 
 [ -n "$2" ] && PREFIX="$2-"
 
-[ -x /usr/sbin/apache2 ] || apt install apache2 apache2-bin apache2-data apache2-utils
-a2enmod rewrite && a2enmod ssl && apachectl restart
-
 if [ ! -f /usr/local/sbin/gslperms ]; then
   echo 'The gslperms utility is not installed!'
   exit 1
