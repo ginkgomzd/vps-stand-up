@@ -3,13 +3,6 @@ SITE=$1
 
 [ -n "$2" ] && PREFIX="$2-"
 
-if [ ! -f /usr/local/sbin/gslperms ]; then
-  echo 'The gslperms utility is not installed!'
-  exit 1
-else
-  gslperms sites /var/www
-fi
-
 if [ ! -z "$SITE" ]; then
 
   gslperms project /var/www/$SITE
