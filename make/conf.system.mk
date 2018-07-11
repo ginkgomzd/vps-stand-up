@@ -1,7 +1,8 @@
 
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
+include $(this-dir)/inc.functions.mk
 
-REPLACE_CMD := $(this-dir)/../bin/replace_file
+REPLACE_CMD := $(this-dir)../bin/replace_file
 
 # TODO:
 # all:
@@ -9,7 +10,10 @@ REPLACE_CMD := $(this-dir)/../bin/replace_file
 conf.system.gsl-logo:
 	$(REPLACE_CMD) gsl-motd-logo.txt
 	$(REPLACE_CMD) update-motd.d/00-0logo
-	[ -x /usr/games/fortune ] || apt install fortune-mod fortunes-min fortunes fortunes-bofh-excuses
+	$(call install-package, fortunes)
+	$(call install-package, fortunes-bofh-excuses)
+	$(call install-package, fortune-mod)
+	$(call install-package, fortunes-min)
 	@ touch conf.system.gsl-logo
 
 # TODO: dkim
