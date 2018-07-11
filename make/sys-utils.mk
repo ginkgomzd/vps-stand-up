@@ -13,15 +13,15 @@ sys-utils/.keyscan:
 	ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
 	touch $(@)
 
-sys-utils/linode-etc: sys-utils/keyscan
+sys-utils/linode-etc: sys-utils/.keyscan
 	- rm -r $(@)
 	git clone git@bitbucket.org:ginkgostreet/linode-etc.git $(@)
 
-sys-utils/backup-mysql: sys-utils/keyscan
+sys-utils/backup-mysql: sys-utils/.keyscan
 	- rm -r $(@)
 	git clone git@bitbucket.org:ginkgostreet/backup-mysql.git $(@)
 
-sys-utils/env-utils: sys-utils/keyscan
+sys-utils/env-utils: sys-utils/.keyscan
 	- rm -r $(@)
 	git clone git@bitbucket.org:ginkgostreet/env-utils-v3.git $(@)
 	cd sys-utils/env-utils && \
