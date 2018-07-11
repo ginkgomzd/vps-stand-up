@@ -28,7 +28,7 @@ web-utils: prereqs
 	$(MAKE) -f make/web-utils.mk
 
 .PHONY: configure
-configure: system sys-utils
+configure: system sys-utils security
 	$(MAKE) -f make/conf.system.mk
 	@ touch conf.system
 	$(MAKE) -f make/conf.security.mk
