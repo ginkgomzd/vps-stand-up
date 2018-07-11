@@ -3,9 +3,7 @@ this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 
 REPLACE_CMD := $(this-dir)../bin/replace_file
 
-conf.server.mysql: conf.d memory
-	service mysql restart
-	@ touch $(@)
+all: conf.d memory
 
 .PHONY: conf.d
 conf.d:
