@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-[ -x /usr/sbin/logrotate ] || apt install logrotate
-
-if [ -d /etc/logrotate.d ]; then
-  ./replace_file logrotate.d/apache2
-fi

@@ -20,7 +20,10 @@ server.apache-mods:
 	a2enmod ssl
 	apachectl restart
 
-
 server.certbot:
 	$(call install-package, certbot)
 	@touch server.certbot
+
+server.dkim:
+	$(call install-package, opendkim)
+	@touch server.dkim

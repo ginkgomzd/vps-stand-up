@@ -2,16 +2,13 @@
 S=${1:-$( hostname -s )}	# Selector
 D=${2:-$( hostname -d )}	# Domain
 
-[ -f /etc/opendkim.conf ] || apt install opendkim || exit 1
-[ -x /usr/bin/opendkim-genkey ] || apt install opendkim-tools || exit 1
-
 [ ! -d ./dkim ] && mkdir ./dkim
-[   -f ./dkim/$S.private ] && { echo "Keys for the selector $S have already been created" ; exit 1 ; }
+[  -f ./dkim/$S.private ] && { echo "Keys for the selector $S have already been created" ; exit 1 ; }
 
 opendkim-genkey --directory=./dkim --verbose --domain=$D --selector=$S || exit 1
 
-[ ! -d /etc/opendkim ] && mkdir /etc/opendkim
-[ ! -d /etc/dkimkeys ] && mkdir /etc/dkimkeys
+[ -d /etc/opendkim ] || mkdir /etc/opendkim
+[ -d /etc/dkimkeys ] || mkdir /etc/dkimkeys
 
 cp ./dkim/$S.private /etc/dkimkeys/$S.private
 echo "$S._domainkey.$D	$D:$S:/etc/dkimkeys/$S.private" >> /etc/opendkim/keyfile

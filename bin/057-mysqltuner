@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-[ -f /usr/local/sbin/mysqltuner ] && { echo Error: mysqltuner is already installed! ; exit 1 ; }
-
-wget -O /usr/local/sbin/mysqltuner "http://mysqltuner.pl" && chmod a+x /usr/local/sbin/mysqltuner

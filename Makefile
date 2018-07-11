@@ -31,6 +31,11 @@ server: prereqs vendor
 web-utils: prereqs
 	$(MAKE) -f make/web-utils.mk
 
-.PHONY: conf.system
-conf.system: system sys-utils
+.PHONY: configure
+configure: system sys-utils
 	$(MAKE) -f make/conf.system.mk
+	@ touch conf.system
+	$(MAKE) -f make/conf.security.mk
+	@ touch conf.security
+	$(MAKE) -f make/conf.server.mk
+	@ touch conf.server

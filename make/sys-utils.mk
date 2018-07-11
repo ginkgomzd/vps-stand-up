@@ -1,4 +1,7 @@
 
+this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
+include $(this-dir)/inc.functions.mk
+
 all: sys-utils/linode-etc sys-utils/backup-mysql sys-utils/env-utils sys-utils/bad-bot-blocker sys-utils/rkhunter
 
 sys-utils.keyscan:
@@ -18,13 +21,13 @@ sys-utils/env-utils: sys-utils.keyscan
 	cd sys-utils/env-utils && \
 	git checkout linode-1.0
 
-sys-utils/bad-bot-blocker: sys-utils.keyscan
-	git clone git@github.com:ginkgostreet/bad-bot-blocker.git sys-utils/bad-bot-blocker
+sys-utils/dkim-tools:
+	$(call install-package, opendkim-tools)
+	@ touch sys-utils/dkim-tools
 
-sys-utils/rkhunter:
-	wget https://sourceforge.net/projects/rkhunter/files/rkhunter/1.4.6/rkhunter-1.4.6.tar.gz
-	cd sys-utils && tar xzf ../rkhunter-1.4.6.tar.gz --xform="s/rkhunter-1.4.6/rkhunter/"
-	rm rkhunter-1.4.6.tar.gz
+/usr/local/sbin/mysqltuner:
+	wget "http://mysqltuner.pl" -O /usr/local/sbin/mysqltuner
+	chmod a+x /usr/local/sbin/mysqltuner
 
 .PHONY: sys-utils.clean
 sys-utils.clean:
