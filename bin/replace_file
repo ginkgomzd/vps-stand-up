@@ -11,12 +11,21 @@ TS=`date +"%Y%m%d.%H%M"`
 # If the new file doesn't exist, bail
 [ -f $REPO/$THE_FILE ] || exit 1
 
-[ -f /etc/$THE_FILE ] && mkdir -p $( dirname $BKUP/$THE_FILE ) && mv /etc/$THE_FILE $BKUP/$THE_FILE-$TS
-[ -d $( dirname /etc/$THE_FILE ) ] || mkdir -p $( dirname /etc/$THE_FILE )
+# If the target file exists, back it up.
+if [ -f "/etc/$THE_FILE" ]
+then
+  BKUP_DIR=$(dirname "$BKUP/$THE_FILE")
+  mkdir -p $BKUP_DIR && mv "/etc/$THE_FILE $BKUP/$THE_FILE-$TS"
+fi
+
+# If the target dir doesn't exist, create it
+ETC_DIR=$(dirname /etc/$THE_FILE)
+[ -d "$ETC_DIR" ] || mkdir -p "$ETC_DIR"
+
 cp $REPO/$THE_FILE /etc/$THE_FILE
 ERR=$?
 
 # If there was an error, restore the original file
-[ ! $ERR -a -f $BKUP/$THE_FILE-$TS ] && mv -f $BKUP/$THE_FILE-$TS /etc/$THE_FILE
+[ ! $ERR ] && [ -f $BKUP/$THE_FILE-$TS ] && mv -f $BKUP/$THE_FILE-$TS /etc/$THE_FILE
 
 exit $ERR
