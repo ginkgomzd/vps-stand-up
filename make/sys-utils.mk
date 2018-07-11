@@ -10,7 +10,7 @@ sys-utils/keyscan:
 	ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
 	touch sys-utils/keyscan
 
-sys-utils/linode-etc: sys-utils/keyscan
+linode-etc: sys-utils/keyscan
 	git clone git@bitbucket.org:ginkgostreet/linode-etc.git sys-utils/linode-etc
 
 sys-utils/backup-mysql: sys-utils/keyscan
