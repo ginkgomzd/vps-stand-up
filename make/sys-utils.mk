@@ -2,12 +2,12 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-all: sys-utils sys-utils/keyscan sys-utils/linode-etc sys-utils/backup-mysql sys-utils/env-utils sys-utils/dkim-tools /usr/local/sbin/mysqltuner
+all: sys-utils sys-utils/.keyscan sys-utils/linode-etc sys-utils/backup-mysql sys-utils/env-utils sys-utils/.dkim-tools /usr/local/sbin/mysqltuner
 
 sys-utils:
 	mkdir $(@)
 
-sys-utils/keyscan:
+sys-utils/.keyscan:
 	test -d ~/.ssh || mkdir ~/.ssh
 	ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 	ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
@@ -27,7 +27,7 @@ sys-utils/env-utils: sys-utils/keyscan
 	cd sys-utils/env-utils && \
 	git checkout linode-1.0
 
-sys-utils/dkim-tools:
+sys-utils/.dkim-tools:
 	$(call install-package, opendkim-tools)
 	@ touch $(@)
 
