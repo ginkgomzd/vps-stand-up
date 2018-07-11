@@ -3,16 +3,12 @@ export SHELL := sh
 
 export DEBIAN_FRONTEND ?= noninteractive
 
-.PHONY: vendor
-vendor:
-	$(MAKE) -f make/vendor.mk
-
 .PHONY: prereqs
 prereqs:
 	$(MAKE) -f make/prereqs.mk
 
 .PHONY: system
-system: prereqs vendor
+system: prereqs sys-utils
 	$(MAKE) -f make/system.mk
 
 .PHONY: security
@@ -24,7 +20,7 @@ sys-utils: prereqs
 	$(MAKE) -f make/sys-utils.mk
 
 .PHONY: server
-server: prereqs vendor
+server: prereqs sys-utils
 	$(MAKE) -f make/server.mk
 
 .PHONY: web-utils
