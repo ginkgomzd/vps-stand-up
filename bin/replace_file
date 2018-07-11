@@ -7,22 +7,23 @@ THE_FILE=$1
 REPO=${2:-sys-utils/linode-etc}
 BKUP=${3:-etc-backups}
 TS=`date +"%Y%m%d.%H%M"`
+CP='cp -a'
 
 # If the new file doesn't exist, bail
-[ -f $REPO/$THE_FILE ] || exit 1
+[ ! -f $REPO/$THE_FILE ] && [ ! -d $REPO/$THE_FILE ] && exit 1
 
 # If the target file exists, back it up.
-if [ -f "/etc/$THE_FILE" ]
+if [ -f "/etc/$THE_FILE" ] || [ -d "/etc/$THE_FILE" ]
 then
   BKUP_DIR=$(dirname "$BKUP/$THE_FILE")
-  mkdir -p $BKUP_DIR && mv "/etc/$THE_FILE $BKUP/$THE_FILE-$TS"
+  mkdir -p $BKUP_DIR && $CP "/etc/$THE_FILE" "$BKUP/$THE_FILE-$TS"
 fi
 
 # If the target dir doesn't exist, create it
 ETC_DIR=$(dirname /etc/$THE_FILE)
 [ -d "$ETC_DIR" ] || mkdir -p "$ETC_DIR"
 
-cp $REPO/$THE_FILE /etc/$THE_FILE
+$CP $REPO/$THE_FILE /etc/$THE_FILE
 ERR=$?
 
 # If there was an error, restore the original file
