@@ -2,26 +2,26 @@
 # patchfile filename [ new-file-dir [ backup-dir ] ]
 # replaces a file in /etc with a new one, saving a backup
 
-OLD=$1
-NEW=${2:-./tools/linode-etc}
+THE_FILE=$1
+REPO=${2:-sys-utils/linode-etc}
 BKUP=${3:-./backups}
 TS=`date +"%Y%m%d.%H%M"`
+PATCH_CMD='patch --verbose --directory=/etc --forward --backup'
 
 # If the old file and a patch file don't exist, bail
-[ -f /etc/$OLD -a -f $NEW/$OLD.patch ] || exit 1
+[ -f /etc/$THE_FILE ] && [ -f $REPO/$THE_FILE.patch ] || exit 1
 
-mkdir -p $( dirname $BKUP/$OLD )
-
-patch --verbose --directory=/etc --forward --backup --strip=1 < $NEW/$OLD.patch
+$PATCH_CMD --strip=1 < $REPO/$THE_FILE.patch
 ERR=$?
 
 # If there was an error, restore the original file
 if [ $ERR ]; then
   # Patch succeeded: Back up the original file
-  [ -f /etc/$OLD.orig ] && mv -f /etc/$OLD.orig $BKUP/$OLD-$TS
+  BKUP_DIR=$(dirname "$BKUP/$THE_FILE") && mkdir -p $BKUP_DIR
+  [ -f /etc/$THE_FILE.orig ] && mv -f /etc/$THE_FILE.orig $BKUP/$THE_FILE-$TS
 else
   # Patch failed: Restore the original file
-  [ -f /etc/$OLD.orig ] && mv -f /etc/$OLD.orig /etc/$OLD
+  [ -f /etc/$THE_FILE.orig ] && mv -f /etc/$THE_FILE.orig /etc/$THE_FILE
 fi
 
 exit $ERR
