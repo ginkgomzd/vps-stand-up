@@ -4,8 +4,8 @@
 #     if an orginal file doesn't exist, create it
 
 THE_FILE=$1
-REPO=${2:-../sys-utils/linode-etc}
-BKUP=${3:-../etc-backups}
+REPO=${2:-sys-utils/linode-etc}
+BKUP=${3:-etc-backups}
 TS=`date +"%Y%m%d.%H%M"`
 
 # If the new file doesn't exist, bail
