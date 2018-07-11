@@ -2,8 +2,6 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-export DEBIAN_FRONTEND ?= noninteractive
-
 all: system.acl system.upgrades system.bsd-mailx \
 	system.logrotate system.logwatch
 
