@@ -19,8 +19,8 @@ conf.system.dkim:
 
 conf.system.sudoers:
 	test -d /etc/sudoers.d || exit 1
-  $(REPLACE_CMD) sudoers.d/logging
-  $(REPLACE_CMD) sudoers.d/maint
+	$(REPLACE_CMD) sudoers.d/logging
+	$(REPLACE_CMD) sudoers.d/maint
 	@ touch conf.system.sudoers
 
 conf.system.logwatch: logwatch.conf logwatch.scripts
@@ -28,15 +28,15 @@ conf.system.logwatch: logwatch.conf logwatch.scripts
 .PHONY: logwatch.conf
 logwatch.conf:
 	test -d /etc/logwatch/conf || exit 1
-  $(REPLACE_CMD) logwatch/conf/logwatch.conf
-  $(REPLACE_CMD) logwatch/conf/logfiles/http.conf
-  $(REPLACE_CMD) logwatch/conf/logfiles/http-error.conf
+	$(REPLACE_CMD) logwatch/conf/logwatch.conf
+	$(REPLACE_CMD) logwatch/conf/logfiles/http.conf
+	$(REPLACE_CMD) logwatch/conf/logfiles/http-error.conf
 
 .PHONY: logwatch.scripts
 logwatch.scripts:
 	test -d /etc/logwatch/scripts/services || exit 1
-  $(REPLACE_CMD) logwatch/scripts/services/sshd
-  $(REPLACE_CMD) logwatch/scripts/services/sudo
+	$(REPLACE_CMD) logwatch/scripts/services/sshd
+	$(REPLACE_CMD) logwatch/scripts/services/sudo
 
 conf.system.logrotate:
 	test -d /etc/logrotate.d || exit 1
