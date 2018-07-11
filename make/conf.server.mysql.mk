@@ -9,16 +9,16 @@ conf.server.mysql: conf.d memory
 
 .PHONY: conf.d
 conf.d:
- 	$(REPLACE_CMD) mysql/mysql.conf.d
+	$(REPLACE_CMD) mysql/mysql.conf.d
 
 .PHONY: memory
 memory:
 	# Check for higher-memory VPS configurations
-	echo $(memTotal)
-	[ $(memTotal) -gt 7000 ] && REPLACE_CMD mysql/mysql.conf.d/innodb.cnf-8gb && \
-	mv -f /etc/mysql/mysql.conf.d/innodb.cnf-8gb /etc/mysql/mysql.conf.d/innodb.cnf
+	if [ $(memTotal) -gt 3000 ]; then \
+		$(REPLACE_CMD) mysql/mysql.conf.d/innodb.cnf-8gb && \
+		mv -f /etc/mysql/mysql.conf.d/innodb.cnf-8gb /etc/mysql/mysql.conf.d/innodb.cnf; \
+	fi
 
 define memTotal
-	memTotal = $(shell grep MemTotal /proc/meminfo | awk '{print $2}')
-	$(shell $(memTotal) / 1024)
+$$(( $(shell grep MemTotal /proc/meminfo | sed -E 's/[ ]+/\t/g' | cut -f 2) / 1024 ))
 endef
