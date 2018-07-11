@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# TODO certbot
+
 H=$1
 
 [ -x /usr/bin/certbot ] || apt install python-certbot-apache

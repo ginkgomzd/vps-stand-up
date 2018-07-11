@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: update script
+
 ./replace_file mysql/mysql.conf.d/mysqld.cnf
 
 ./replace_file mysql/mysql.conf.d/charset.cnf
