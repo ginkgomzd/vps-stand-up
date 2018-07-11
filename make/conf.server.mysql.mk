@@ -12,7 +12,7 @@ conf.d:
 .PHONY: memory
 memory:
 	# Check for higher-memory VPS configurations
-	if [ $(memTotal) -gt 3000 ]; then \
+	if [ $(memTotal) -gt 7000 ]; then \
 		$(REPLACE_CMD) mysql/mysql.conf.d/innodb.cnf-8gb && \
 		mv -f /etc/mysql/mysql.conf.d/innodb.cnf-8gb /etc/mysql/mysql.conf.d/innodb.cnf; \
 	fi
