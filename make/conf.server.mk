@@ -47,3 +47,9 @@ conf.server.sshd.keys: back-up-sshd-keys
 	ssh-keygen -f ssh/ssh_host_ed22519_key -N '' -t ed25519
 	service sshd restart
 	@ touch $(@)
+
+conf.server.sshd.port:
+	$(REPLACE_CMD) ssh/port22-deprecated.txt
+	$(REPLACE_CMD) ssh/sshd_config
+	service sshd restart
+	@ touch $(@)
