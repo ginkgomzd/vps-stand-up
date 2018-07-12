@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# TODO: update script
-
-cat <<EOF | dpkg-reconfigure -fnoninteractive unattended-upgrades
-unattended-upgrades	unattended-upgrades/enable_auto_updates	boolean	true
-unattended-upgrades	unattended-upgrades/origins_pattern	string	"origin=Debian,codename=${distro_codename},label=Debian-Security";
-EOF

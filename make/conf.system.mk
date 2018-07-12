@@ -51,6 +51,10 @@ conf.system.logrotate:
 	$(REPLACE_CMD) logrotate.d/apache2
 	@ touch $(@)
 
+define debconf.unattended-upgrades.selections
+unattended-upgrades/enable_auto_updates	boolean	true unattended-upgrades unattended-upgrades/origins_pattern	string "origin=Debian,codename=${distro_codename},label=Debian-Security";
+endef
+
 conf.system.updates:
-	$(this-dir)/../bin/015-unattended-upgrades
+	dpkg-reconfigure -fnoninteractive unattended-upgrades unattended-upgrades < $(debconf.unattended-upgrades.selections)
 	@ touch $(@)
