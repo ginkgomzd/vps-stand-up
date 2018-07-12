@@ -23,7 +23,7 @@ conf.system.gsl-logo:
 
 # TODO: dkim
 conf.system.dkim:
-	$(this-dir)/../bin/075-opendkim
+	$(MAKE) -f make/conf.dkim.mk
 	@ touch $(@)
 
 conf.system.sudoers:
