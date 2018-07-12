@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -x
-[ -z "$1" ] && { echo "Error: Specify the FQDN of the server" ; exit 1 ; }
-H=$1
-# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
-hostnamectl set-hostname $H
-echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
-[ `hostname --long` != $H ] && exit 1

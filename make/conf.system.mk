@@ -7,6 +7,11 @@ REPLACE_CMD := $(this-dir)../bin/replace_file
 # TODO:
 # all:
 
+conf.hostname:
+	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
+	hostnamectl set-hostname $STANDUP_FQDN
+	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
+
 conf.system.gsl-logo:
 	$(REPLACE_CMD) gsl-motd-logo.txt
 	$(REPLACE_CMD) update-motd.d/00-0logo
