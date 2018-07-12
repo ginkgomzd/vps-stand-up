@@ -53,3 +53,7 @@ conf.server.sshd.port:
 	$(REPLACE_CMD) ssh/sshd_config
 	service sshd restart
 	@ touch $(@)
+
+conf.server.ssl:
+  nslookup $(STANDUP_FQDN).
+  certbot --apache --allow-subset-of-names -d $(STANDUP_FQDN)

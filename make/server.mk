@@ -21,6 +21,7 @@ server.apache-mods:
 
 server.certbot:
 	$(call install-package, certbot)
+	$(call install-package, python-certbot-apache)
 	@touch $(@)
 
 server.dkim:
