@@ -19,13 +19,13 @@ conf.system.gsl-logo:
 # TODO: dkim
 conf.system.dkim:
 	$(this-dir)/../bin/075-opendkim
-	@ touch conf.system.dkim
+	@ touch $(@)
 
 conf.system.sudoers:
 	test -d /etc/sudoers.d || exit 1
 	$(REPLACE_CMD) sudoers.d/logging
 	$(REPLACE_CMD) sudoers.d/maint
-	@ touch conf.system.sudoers
+	@ touch $(@)
 
 conf.system.logwatch: logwatch.conf logwatch.scripts
 
@@ -45,8 +45,8 @@ logwatch.scripts:
 conf.system.logrotate:
 	test -d /etc/logrotate.d || exit 1
 	$(REPLACE_CMD) logrotate.d/apache2
-	@ touch conf.system.logrotate
+	@ touch $(@)
 
 conf.system.updates:
 	$(this-dir)/../bin/015-unattended-upgrades
-	@ touch conf.system.updates
+	@ touch $(@)
