@@ -29,5 +29,5 @@ conf.server.postfix:
 	@ touch $(@)
 
 conf.server.dkim: conf.server.postfix
-	$(MAKE) -f make/conf.dkim.mk
+	$(MAKE) -f make/conf.server.dkim.mk
 	@ touch $(@)
