@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-TZ=${1:-'America/New_York'}
-sudo ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
-dpkg-reconfigure -f noninteractive tzdata

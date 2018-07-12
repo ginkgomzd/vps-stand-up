@@ -12,6 +12,12 @@ conf.system.hostname:
 	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
 	domainname $(STANDUP_DOMAIN)
 
+STANDUP_TIMEZONE ?= 'America/New_York'
+conf.system.timezone:
+	ln -fs /usr/share/zoneinfo/$(STANDUP_TIMEZONE) /etc/localtime
+	dpkg-reconfigure -f noninteractive tzdata
+	@ touch $(@)
+
 conf.system.gsl-logo:
 	$(REPLACE_CMD) gsl-motd-logo.txt
 	$(REPLACE_CMD) update-motd.d/00-0logo
