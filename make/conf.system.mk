@@ -4,7 +4,7 @@ include $(this-dir)/inc.functions.mk
 
 REPLACE_CMD := $(this-dir)../bin/replace_file
 
-all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.dkim conf.system.updates
+all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.updates
 
 conf.system.hostname:
 	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
