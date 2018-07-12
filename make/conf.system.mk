@@ -20,7 +20,6 @@ conf.system.gsl-logo:
 	$(call install-package, fortunes-min)
 	@ touch conf.system.gsl-logo
 
-# TODO: dkim
 conf.system.dkim:
 	$(MAKE) -f make/conf.dkim.mk
 	@ touch $(@)

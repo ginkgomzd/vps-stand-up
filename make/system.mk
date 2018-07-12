@@ -26,6 +26,5 @@ system.logwatch:
 	$(call install-package, logwatch)
 	@ touch $(@)
 
-# TODO:
-# Unclear if these packages are needed:
+# TODO: Unclear if these packages are needed:
 # software-properties-common python-software-properties

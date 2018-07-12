@@ -16,7 +16,7 @@ RKHUNTER_VER := 1.4.6
 clean:
 	rm -rf /usr/local/share/rkhunter /usr/local/bin/rkhunter
 
-# TODO:
+# TODO: detritus
 # don't think the following should have been part of the install:
 # Set-up a cron-job?
 #
