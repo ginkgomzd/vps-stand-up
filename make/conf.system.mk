@@ -4,10 +4,9 @@ include $(this-dir)/inc.functions.mk
 
 REPLACE_CMD := $(this-dir)../bin/replace_file
 
-# TODO:
-# all:
+all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.dkim conf.system.updates
 
-conf.hostname:
+conf.system.hostname:
 	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
 	hostnamectl set-hostname $STANDUP_FQDN
 	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
