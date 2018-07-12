@@ -21,10 +21,6 @@ conf.system.gsl-logo:
 	$(call install-package, fortunes-min)
 	@ touch conf.system.gsl-logo
 
-conf.system.dkim:
-	$(MAKE) -f make/conf.dkim.mk
-	@ touch $(@)
-
 conf.system.sudoers:
 	test -d /etc/sudoers.d || exit 1
 	$(REPLACE_CMD) sudoers.d/logging

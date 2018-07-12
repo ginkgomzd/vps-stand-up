@@ -25,3 +25,7 @@ conf.server.postfix:
 	| debconf-set-selections
 	dpkg-reconfigure -f noninteractive postfix
 	@ touch $(@)
+
+conf.server.dkim: conf.server.postfix
+	$(MAKE) -f make/conf.dkim.mk
+	@ touch $(@)
