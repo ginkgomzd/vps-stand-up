@@ -10,15 +10,11 @@ server.lamp:
 	sudo apt -yq install lamp-server^
 	@ touch $(@)
 
-# TODO: find out why we are doing these:
 server.apache-mods:
-	$(call install-package, apache2)
-	$(call install-package, apache2-bin)
-	$(call install-package, apache2-data)
-	$(call install-package, apache2-utils)
 	a2enmod rewrite
 	a2enmod ssl
 	apachectl restart
+	@ touch $(@)
 
 server.certbot:
 	$(call install-package, certbot)
