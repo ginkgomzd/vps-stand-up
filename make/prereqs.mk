@@ -2,7 +2,7 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-all: wget git debconf-utils repo.certbot
+all: wget git debconf-utils repo.certbot prereqs.keyscan
 
 .PHONY: wget
 wget:
@@ -24,3 +24,9 @@ repo.certbot:
 .PHONY: unzip
 unzip:
 	$(call install-package, unzip)
+
+prereqs.keyscan:
+	test -d ~/.ssh || mkdir ~/.ssh
+	ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+	ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+	touch $(@)
