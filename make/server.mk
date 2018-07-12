@@ -10,6 +10,9 @@ server.lamp:
 	sudo apt -yq install lamp-server^
 	@ touch $(@)
 
+server.postfix:
+	$(call install-package, postfix)
+
 server.apache-mods:
 	a2enmod rewrite
 	a2enmod ssl

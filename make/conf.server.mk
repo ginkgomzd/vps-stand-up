@@ -9,4 +9,19 @@ conf.server.mysql: conf.server.mysql.file-limits
 	@ touch $(@)
 
 conf.server.postfix:
-	$(this-dir)../bin/070-postfix
+	echo 'postfix	postfix/protocols	select	all\
+	postfix	postfix/root_address	string	clients@ginkgostreet.com\
+	postfix	postfix/procmail	boolean	false\
+	postfix	postfix/mailbox_limit	string	51200000\
+	postfix	postfix/recipient_delim	string	+\
+	postfix	postfix/chattr	boolean	false\
+	postfix	postfix/compat_conversion_warning	boolean	true\
+	postfix	postfix/rfc1035_violation	boolean	false\
+	postfix	postfix/destinations	string	$$myhostname, $(STANDUP_FQDN), localhost.$(STANDUP_DOMAIN) ,\ localhost\
+	postfix	postfix/mynetworks	string	127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128\
+	postfix	postfix/main_mailer_type	select	Internet Site\
+	postfix	postfix/mailname	string	$(STANDUP_FQDN)\
+	postfix	postfix/main_cf_conversion_warning	boolean	true\' \
+	| debconf-set-selections
+	dpkg-reconfigure -f noninteractive postfix
+	@ touch $(@)

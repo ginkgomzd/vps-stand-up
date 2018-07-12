@@ -8,8 +8,9 @@ all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.l
 
 conf.system.hostname:
 	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
-	hostnamectl set-hostname $STANDUP_FQDN
+	hostnamectl set-hostname $(STANDUP_FQDN)
 	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
+	domainname $(STANDUP_DOMAIN)
 
 conf.system.gsl-logo:
 	$(REPLACE_CMD) gsl-motd-logo.txt
