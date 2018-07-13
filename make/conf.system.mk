@@ -4,13 +4,14 @@ include $(this-dir)/inc.functions.mk
 
 REPLACE_CMD := $(this-dir)../bin/replace_file
 
-all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.updates
+all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.upgrades
 
 conf.system.hostname:
 	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
 	hostnamectl set-hostname $(STANDUP_FQDN)
 	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
 	domainname $(STANDUP_DOMAIN)
+	@ touch $(@)
 
 STANDUP_TIMEZONE ?= 'America/New_York'
 conf.system.timezone:
@@ -25,7 +26,7 @@ conf.system.gsl-logo:
 	$(call install-package, fortunes-bofh-excuses)
 	$(call install-package, fortune-mod)
 	$(call install-package, fortunes-min)
-	@ touch conf.system.gsl-logo
+	@ touch $(@)
 
 conf.system.sudoers:
 	test -d /etc/sudoers.d || exit 1
@@ -34,6 +35,7 @@ conf.system.sudoers:
 	@ touch $(@)
 
 conf.system.logwatch: logwatch.conf logwatch.scripts
+	@ touch $(@)
 
 .PHONY: logwatch.conf
 logwatch.conf:
@@ -53,10 +55,11 @@ conf.system.logrotate:
 	$(REPLACE_CMD) logrotate.d/apache2
 	@ touch $(@)
 
-define debconf.unattended-upgrades.selections
-unattended-upgrades/enable_auto_updates	boolean	true unattended-upgrades unattended-upgrades/origins_pattern	string "origin=Debian,codename=${distro_codename},label=Debian-Security";
-endef
+unattended-upgrades/enable_auto_updates := unattnded-upgrades unattended-upgrades/enable_auto_updates	boolean	true
+unattended-upgrades/origins_pattern := unattended-upgrades unattended-upgrades/origins_pattern	string "origin=Debian,codename=\$${distro_codename},label=Debian-Security"
 
-conf.system.updates:
-	dpkg-reconfigure -fnoninteractive unattended-upgrades unattended-upgrades < $(debconf.unattended-upgrades.selections)
+conf.system.upgrades:
+	$(call debconf-set-selection, $(unattended-upgrades/enable_auto_updates))
+	$(call debconf-set-selection, $(unattended-upgrades/origins_pattern))
+	dpkg-reconfigure -fnoninteractive unattended-upgrades
 	@ touch $(@)
