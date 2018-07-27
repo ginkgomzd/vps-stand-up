@@ -3,7 +3,7 @@
 # replaces a file in /etc with a new one, saving a backup
 
 THE_FILE=$1
-REPO=${2:-sys-utils/linode-etc}
+REPO=${2:-sys-utils/ubuntu-etc-confs}
 BKUP=${3:-./backups}
 TS=`date +"%Y%m%d.%H%M"`
 PATCH_CMD='patch --verbose --directory=/etc --forward --backup'

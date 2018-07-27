@@ -5,14 +5,14 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-all: sys-utils sys-utils/linode-etc sys-utils/backup-mysql sys-utils/env-utils sys-utils/.dkim-tools /usr/local/sbin/mysqltuner
+all: sys-utils sys-utils/ubuntu-etc-confs sys-utils/backup-mysql sys-utils/env-utils sys-utils/.dkim-tools /usr/local/sbin/mysqltuner
 
 sys-utils:
 	mkdir $(@)
 
-sys-utils/linode-etc:
+sys-utils/ubuntu-etc-confs:
 	- rm -r $(@)
-	git clone git@bitbucket.org:ginkgostreet/linode-etc.git $(@)
+	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $(@)
 
 sys-utils/backup-mysql:
 	- rm -r $(@)

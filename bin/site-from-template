@@ -11,8 +11,8 @@ if [ ! -z "$SITE" ]; then
   mkdir -p /var/log/apache2/$SITE
   chown root:adm /var/log/apache2/$SITE
 
-  sed -e "s/%%SITE%%/$SITE/" ./tools/linode-etc/apache2/sites-available/999-site.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE.conf
-  sed -e "s/%%SITE%%/$SITE/" ./tools/linode-etc/apache2/sites-available/999-site-ssl.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE-ssl.conf
+  sed -e "s/%%SITE%%/$SITE/" ./tools/ubuntu-etc-confs/apache2/sites-available/999-site.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE.conf
+  sed -e "s/%%SITE%%/$SITE/" ./tools/ubuntu-etc-confs/apache2/sites-available/999-site-ssl.conf-template > /etc/apache2/sites-available/${PREFIX}$SITE-ssl.conf
   a2ensite ${PREFIX}$SITE
   apachectl restart
 
