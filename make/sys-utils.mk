@@ -16,11 +16,11 @@ sys-utils/ubuntu-etc-confs:
 
 sys-utils/backup-mysql:
 	- rm -r $(@)
-	git clone git@bitbucket.org:ginkgostreet/backup-mysql.git $(@)
+	git clone git@github.com:ginkgostreet/backup-mysql.git $(@)
 
 sys-utils/env-utils:
 	- rm -r $(@)
-	git clone git@bitbucket.org:ginkgostreet/env-utils-v3.git $(@)
+	git clone git@github.com:ginkgostreet/env-utils-v3.git $(@)
 	cd sys-utils/env-utils && \
 	git checkout linode-1.0
 
