@@ -3,6 +3,13 @@ export SHELL := sh
 
 export DEBIAN_FRONTEND ?= noninteractive
 
+help:
+	@echo "\n"\
+	"\t"VPS Stand-up Script "\n\n"\
+	Configure a LAMP server to Ginkgo St. Labs Hosting Specs"\n"\
+	"\n"\
+	 'make gsl-lamp' "\t"runs complete setup"\n"
+
 .PHONY: prereqs
 prereqs:
 	$(MAKE) -f make/prereqs.mk
@@ -27,8 +34,8 @@ server: prereqs sys-utils
 web-utils: prereqs
 	$(MAKE) -f make/web-utils.mk
 
-.PHONY: configure
-configure: system sys-utils server security
+.PHONY: gsl-lamp
+gsl-lamp: system sys-utils server security
 	$(MAKE) -f make/conf.system.mk
 	@ touch conf.system
 	$(MAKE) -f make/conf.security.mk
