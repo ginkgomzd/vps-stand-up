@@ -40,7 +40,7 @@ web-utils.cv: /usr/local/bin/cv
 uninstall-drush8:
 	# uninstall drush8
 	composer global remove --no-plugins --no-scripts drush/drush
-  rm -f /usr/local/bin/drush
+	rm -f /usr/local/bin/drush
 	rm -rf /usr/local/share/drush8
 	rm -f web-utils.drush8
 
