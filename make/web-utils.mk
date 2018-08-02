@@ -17,6 +17,20 @@ web-utils.composer:
 web-utils.drush8: /usr/local/bin/drush web-utils.composer
 	touch web-utils.drush8
 
+# TODO: don't use composer to install drush
+# http://docs.drush.org/en/8.x/install/
+#  Browse to https://github.com/drush-ops/drush/releases and download the drush.phar attached to the latest 8.x release.
+#
+# # Test your install.
+# php drush.phar core-status
+#
+# # Rename to `drush` instead of `php drush.phar`. Destination can be anywhere on $PATH.
+# chmod +x drush.phar
+# sudo mv drush.phar /usr/local/bin/drush
+#
+# # Optional. Enrich the bash startup file with completion and aliases.
+# drush init
+
 /usr/local/bin/drush:
 	test -d /usr/local/share/drush8 || mkdir /usr/local/share/drush8
 	cd /usr/local/share/drush8 && $(CMP_CMD) require drush/drush:^8
