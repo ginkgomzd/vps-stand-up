@@ -13,7 +13,7 @@ all: dkim conf.server.dkim.deploy-keys conf.server.dkim.deploy-conf
 dkim:
 	mkdir dkim
 
-$(host_selector).private $(host_seletor).txt:
+$(host_selector).private $(host_selector).txt:
 	opendkim-genkey --directory=./dkim --verbose --domain=$(host_domain) --selector=$(host_selector)
 
 # [ -d /etc/opendkim ] || mkdir /etc/opendkim
@@ -22,7 +22,7 @@ $(host_selector).private $(host_seletor).txt:
 conf.server.dkim.deploy-keys: $(host_selector).private $(host_seletor).txt
 	cp ./dkim/$(host_selector).private /etc/dkimkeys/$(host_selector).private
 	echo "$(host_selector)._domainkey.$(host_domain)	$(host_domain):$(host_domain):/etc/dkimkeys/$(host_selector).private" >> /etc/opendkim/keyfile
-	echo "*@$(host_domain)	$(host_seletor)._domainkey.$(host_domain)" >> /etc/opendkim/signing
+	echo "*@$(host_domain)	$(host_selector)._domainkey.$(host_domain)" >> /etc/opendkim/signing
 	chown -R opendkim:opendkim /etc/dkimkeys /etc/opendkim
 	@ touch $(@)
 
