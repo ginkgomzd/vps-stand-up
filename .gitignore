@@ -1,1 +1,4 @@
 vendor
+sys-utils/backup-mysql
+sys-utils/env-utils
+sys-utils/ubuntu-etc-confs
