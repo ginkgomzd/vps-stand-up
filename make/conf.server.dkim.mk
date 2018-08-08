@@ -3,8 +3,8 @@ this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 
 REPLACE_CMD := $(this-dir)../bin/replace_file
 
-host_selector := $(shell hostname -s )
-host_domain := $(shell hostname -d )
+host_selector = $(shell hostname -s )
+host_domain = $(shell hostname -d )
 
 all: dkim conf.server.dkim.deploy-keys conf.server.dkim.deploy-conf
 	service opendkim restart
