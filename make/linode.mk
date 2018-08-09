@@ -6,6 +6,8 @@ LIN_IMAGE_ID ?= linode/ubuntu16.04lts
 #LIN_IMAGE_ID ?= private/4200184
 LIN_ROOT_PASS ?= q?IK]qzqFu_[R*v)T85V^!L9Wpj8CEZG
 
+this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
+
 define linodes
 	linode-cli linodes
 endef
@@ -78,3 +80,8 @@ resize-disk:
 	$(linodes) disk-resize --size 40000 $(LIN_HOST_ID) $$DISK_ID
 	# booting
 	$(linodes) boot $(LIN_HOST_ID)
+
+deploy-stand-up: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
+deploy-stand-up:
+	rsync -rz . root@$(LIN_HOST_IP):~/stand-up
+	ssh root@$(LIN_HOST_IP) 'DEBIAN_FRONTEND=Teletype; apt-get install make'
