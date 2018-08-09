@@ -5,9 +5,10 @@ include $(this-dir)/inc.functions.mk
 all: server.lamp server.apache-mods server.dkim server.certbot
 
 server.lamp:
+	apt-get update
 	# install lamp-server meta-package (^)
 	# -y because, for some reason, non-interactive is not enough; maybe because is a meta-package?
-	sudo apt -yq install lamp-server^
+	apt-get -yq install lamp-server^
 	@ touch $(@)
 
 server.postfix:
