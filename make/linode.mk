@@ -63,9 +63,6 @@ rebuild-beater:
 	$(sleep_until_offline)
 	$(linodes) rebuild --root_pass "$(LIN_ROOT_PASS)" --image $(LIN_IMAGE_ID) --authorized_keys "$(shell cat ~/.ssh/id_rsa.pub)" --booted false $(LIN_HOST_ID)
 	$(sleep_until_offline)
-	# Resizing Disk
-	DISK_ID=`$(linodes) disks-list $(LIN_HOST_ID) --text --no-headers | grep -v swap | cut -f1` && \
-	$(linodes) disk-resize --size 40000 $(LIN_HOST_ID) $$DISK_ID
 	# booting
 	$(linodes) boot $(LIN_HOST_ID)
 	# clear known_hosts
