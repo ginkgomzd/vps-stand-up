@@ -66,7 +66,7 @@ rebuild-beater:
 	# booting
 	$(linodes) boot $(LIN_HOST_ID)
 	# clear known_hosts
-	ssh-keygen -f "~/.ssh/known_hosts" -R $(shell $(linode_get_host_ipv4))
+	ssh-keygen -f "$$HOME/.ssh/known_hosts" -R $(shell $(linode_get_host_ipv4))
 
 
 resize-disk: LIN_HOST_ID = $(shell $(linode_get_host_id))
