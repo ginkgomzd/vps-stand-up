@@ -19,7 +19,8 @@ $(host_selector).private $(host_selector).txt:
 # [ -d /etc/opendkim ] || mkdir /etc/opendkim
 # [ -d /etc/dkimkeys ] || mkdir /etc/dkimkeys
 
-conf.server.dkim.deploy-keys: $(host_selector).private $(host_seletor).txt
+conf.server.dkim.deploy-keys: dkim/$(host_selector).private dkim/$(host_selector).txt
+	- mkdir /etc/dkimkeys /etc/opendkim
 	cp ./dkim/$(host_selector).private /etc/dkimkeys/$(host_selector).private
 	echo "$(host_selector)._domainkey.$(host_domain)	$(host_domain):$(host_domain):/etc/dkimkeys/$(host_selector).private" >> /etc/opendkim/keyfile
 	echo "*@$(host_domain)	$(host_selector)._domainkey.$(host_domain)" >> /etc/opendkim/signing
@@ -30,7 +31,7 @@ define postfix.dkim
 if [ ! -f /etc/postfix/main.cf ]; then \
 	echo "Skipping dkim config for postfix: not found."; \
 else \
-	grep "smtpd_milters = inet:localhost:8891" /etc/postfix/main.cf > /dev/null || cat sys-utils/linode-etc/postfix/main.cf.opendkim >> /etc/postfix/main.cf ; \
+	grep "smtpd_milters = inet:localhost:8891" /etc/postfix/main.cf > /dev/null || cat sys-utils/ubuntu-etc-confs/postfix/main.cf.opendkim >> /etc/postfix/main.cf ; \
 	service postfix restart; \
 fi
 endef

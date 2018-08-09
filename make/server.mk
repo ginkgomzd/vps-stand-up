@@ -2,7 +2,7 @@
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(this-dir)/inc.functions.mk
 
-all: server.lamp server.apache-mods server.certbot
+all: server.lamp server.apache-mods server.dkim server.certbot
 
 server.lamp:
 	# install lamp-server meta-package (^)
