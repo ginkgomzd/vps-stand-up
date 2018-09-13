@@ -9,8 +9,12 @@ LIN_REGION ?= us-central
 LIN_VPS_TYPE ?= g6-standard-2
 LIN_SSH_AUTHORIZED_KEYS ?= $(shell cat ~/.ssh/id_rsa.pub)
 
+STANDUP_SSH_PORT ?= 22
+
 DEBIAN_FRONTEND ?= noninteractive
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
+
+SSH_CMD = ssh -p $(STANDUP_SSH_PORT)
 
 define linodes
 	linode-cli linodes
@@ -103,9 +107,9 @@ resize-disk:
 
 install-make: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
 install-make:
-	ssh root@$(LIN_HOST_IP) 'DEBIAN_FRONTEND=$(DEBIAN_FRONTEND) apt-get install -y build-essential bash-completion'
+	$(SSH_CMD) root@$(LIN_HOST_IP) 'DEBIAN_FRONTEND=$(DEBIAN_FRONTEND) apt-get install -y build-essential bash-completion'
 
 deploy-stand-up: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
 deploy-stand-up: install-make
 	# WARNING: deploying current directory
-	rsync -rz . root@$(LIN_HOST_IP):~/stand-up
+	rsync -rz -e "ssh -p $(STANDUP_SSH_PORT)" . root@$(LIN_HOST_IP):~/stand-up
