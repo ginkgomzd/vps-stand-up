@@ -101,7 +101,11 @@ resize-disk:
 	# booting
 	$(linodes) boot $(LIN_HOST_ID)
 
+install-make: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
+install-make:
+	ssh root@$(LIN_HOST_IP) 'DEBIAN_FRONTEND=$(DEBIAN_FRONTEND) apt-get install -y build-essential bash-completion'
+
 deploy-stand-up: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
-deploy-stand-up:
+deploy-stand-up: install-make
+	# WARNING: deploying current directory
 	rsync -rz . root@$(LIN_HOST_IP):~/stand-up
-	ssh root@$(LIN_HOST_IP) 'DEBIAN_FRONTEND=$(DEBIAN_FRONTEND) apt-get install make'
