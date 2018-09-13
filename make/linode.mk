@@ -82,6 +82,15 @@ create-vps:
 	--root_pass "$(LIN_ROOT_PASS)" --authorized_keys "$(LIN_SSH_AUTHORIZED_KEYS)" \
 	--backups_enabled true --booted false
 
+apt-upgrade: LIN_HOST_ID = $(shell $(linode_get_host_id))
+apt-upgrade: LIN_HOST_IP = $(shell $(linode_get_host_ipv4))
+apt-upgrade:
+	$(sleep_until_running)
+	ssh root@$(LIN_HOST_IP) 'apt-get update; DEBIAN_FRONTEND=$(DEBIAN_FRONTEND) apt-get -y upgrade'
+
+reboot: LIN_HOST_ID = $(shell $(linode_get_host_id))
+reboot:
+	$(linodes) reboot  $(LIN_HOST_ID)
 
 resize-disk: LIN_HOST_ID = $(shell $(linode_get_host_id))
 resize-disk:
