@@ -30,14 +30,18 @@ define linode_get_host_ipv4
   $(linodes) list $(linode_raw_format) --label $(LIN_LABEL) --format ipv4
 endef
 define linode_get_disk_id
-
+	# ER... TODO
 endef
+
+host:
+	# LIN_LABEL: ${LIN_LABEL}
+	@$(linode_get_vps)
+
+host-id:
+	@$(linode_get_host_id)
 
 linode-cli:
 	which linode-cli
-
-host:
-	@$(linode_get_vps)
 
 host-status: LIN_HOST_ID = $(shell $(linode_get_host_id))
 host-status:
