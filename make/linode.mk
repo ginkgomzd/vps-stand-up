@@ -5,6 +5,7 @@ LIN_LABEL ?= microscope
 LIN_IMAGE_ID ?= linode/ubuntu18.04
 #LIN_IMAGE_ID ?= private/4200184
 LIN_ROOT_PASS ?= q?IK]qzqFu_[R*v)T85V^!L9Wpj8CEZG
+LIN_SSH_AUTHORIZED_KEYS ?= $(shell cat ~/.ssh/id_rsa.pub)
 
 DEBIAN_FRONTEND ?= noninteractive
 this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
@@ -62,7 +63,7 @@ rebuild-beater: LIN_HOST_ID = $(shell $(linode_get_host_id))
 rebuild-beater:
 	$(linodes) shutdown $(LIN_HOST_ID)
 	$(sleep_until_offline)
-	$(linodes) rebuild --root_pass "$(LIN_ROOT_PASS)" --image $(LIN_IMAGE_ID) --authorized_keys "$(shell cat ~/.ssh/id_rsa.pub)" --booted false $(LIN_HOST_ID)
+	$(linodes) rebuild --root_pass "$(LIN_ROOT_PASS)" --image $(LIN_IMAGE_ID) --authorized_keys "$(LIN_SSH_AUTHORIZED_KEYS)" --booted false $(LIN_HOST_ID)
 	$(sleep_until_offline)
 	# booting
 	$(linodes) boot $(LIN_HOST_ID)
