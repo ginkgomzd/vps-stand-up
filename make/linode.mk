@@ -76,6 +76,12 @@ rebuild-beater:
 	# clear known_hosts
 	ssh-keygen -f "$$HOME/.ssh/known_hosts" -R $(shell $(linode_get_host_ipv4))
 
+create-vps:
+	$(linodes) create --label $(LIN_LABEL) \
+	--image $(LIN_IMAGE_ID) --type $(LIN_VPS_TYPE) --region $(LIN_REGION) \
+	--root_pass "$(LIN_ROOT_PASS)" --authorized_keys "$(LIN_SSH_AUTHORIZED_KEYS)" \
+	--backups_enabled true --booted false
+
 
 resize-disk: LIN_HOST_ID = $(shell $(linode_get_host_id))
 resize-disk:
