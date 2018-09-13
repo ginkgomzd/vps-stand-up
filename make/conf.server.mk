@@ -68,7 +68,8 @@ conf.server.sshd.port:
 	service sshd restart
 	@ touch $(@)
 
+# TODO: interactive; Not included in target, all
 conf.server.ssl:
 	nslookup $(STANDUP_FQDN).
-	certbot --apache --allow-subset-of-names -d $(STANDUP_FQDN)
+	certbot --apache --allow-subset-of-names -d $(STANDUP_FQDN) --webroot-path /var/www/html
 	@ touch $(@)
