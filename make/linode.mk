@@ -2,7 +2,7 @@
 # specify the linode instance to target
 # default: microscope, infrastructure development instance
 LIN_LABEL ?= microscope
-LIN_IMAGE_ID ?= linode/ubuntu16.04lts
+LIN_IMAGE_ID ?= linode/ubuntu18.04
 #LIN_IMAGE_ID ?= private/4200184
 LIN_ROOT_PASS ?= q?IK]qzqFu_[R*v)T85V^!L9Wpj8CEZG
 
