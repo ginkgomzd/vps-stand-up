@@ -5,6 +5,8 @@ LIN_LABEL ?= microscope
 LIN_IMAGE_ID ?= linode/ubuntu18.04
 #LIN_IMAGE_ID ?= private/4200184
 LIN_ROOT_PASS ?= q?IK]qzqFu_[R*v)T85V^!L9Wpj8CEZG
+LIN_REGION ?= us-central
+LIN_VPS_TYPE ?= g6-standard-2
 LIN_SSH_AUTHORIZED_KEYS ?= $(shell cat ~/.ssh/id_rsa.pub)
 
 DEBIAN_FRONTEND ?= noninteractive
