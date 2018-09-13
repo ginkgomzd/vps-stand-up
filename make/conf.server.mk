@@ -48,17 +48,17 @@ conf.server.dkim: conf.server.postfix
 
 .PHONY: back-up-sshd-keys
 back-up-sshd-keys:
-	- mkdir sshd.keys
-	for KEYFILE in `ls -1 ssh/ssh_host*key*`; \
+	- mkdir -p sshd.keys/etc/ssh
+	for KEYFILE in `ls -1 /etc/ssh/ssh_host*key*`; \
 	do \
-		mv $$KEYFILE sshd.keys/$$KEYFILE-$(shell date +"%Y%m%d.%H%M");\
+		mv $$KEYFILE sshd.keys$$KEYFILE-$(shell date +"%Y%m%d.%H%M");\
 	done
 
 conf.server.sshd.keys: back-up-sshd-keys
-	ssh-keygen -f ssh/ssh_host_rsa_key     -N '' -t rsa
-	ssh-keygen -f ssh/ssh_host_dsa_key     -N '' -t dsa
-	ssh-keygen -f ssh/ssh_host_ecdsa_key   -N '' -t ecdsa
-	ssh-keygen -f ssh/ssh_host_ed22519_key -N '' -t ed25519
+	ssh-keygen -f /etc/ssh/ssh_host_rsa_key     -N '' -t rsa
+	ssh-keygen -f /etc/ssh/ssh_host_dsa_key     -N '' -t dsa
+	ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key   -N '' -t ecdsa
+	ssh-keygen -f /etc/ssh/ssh_host_ed22519_key -N '' -t ed25519
 	service sshd restart
 	@ touch $(@)
 
