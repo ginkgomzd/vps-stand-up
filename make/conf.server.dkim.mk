@@ -13,7 +13,7 @@ all: dkim conf.server.dkim.deploy-keys conf.server.dkim.deploy-conf
 dkim:
 	mkdir dkim
 
-$(host_selector).private $(host_selector).txt:
+dkim/$(host_selector).private dkim/$(host_selector).txt:
 	opendkim-genkey --directory=./dkim --verbose --domain=$(host_domain) --selector=$(host_selector)
 
 # [ -d /etc/opendkim ] || mkdir /etc/opendkim
