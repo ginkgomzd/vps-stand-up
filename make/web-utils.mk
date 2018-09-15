@@ -8,7 +8,7 @@ include $(this-dir)/inc.functions.mk
 CMP_CMD := composer --no-plugins --no-scripts
 
 # TODO: fix web-utils.wpcli
-install: web-utils.composer web-utils.drush8 web-utils.cv
+install: web-utils.composer web-utils.drush8 web-utils.wpcli web-utils.cv
 
 web-utils.composer:
 	$(MAKE) -f $(this-dir)/composer.mk
@@ -40,9 +40,11 @@ web-utils.drush8: /usr/local/bin/drush web-utils.composer
 # # Explicitly use PHP 5.6 for Drush if it's there
 # [ -x /usr/bin/php5.6 ] && replace_file profile.d/drush.sh
 
+/usr/local/bin/wp:
+	$(MAKE) -f $(this-dir)/wp-cli.mk
+
 # TODO: fails because it requires php7.1, and we are getting 7.2 from lamp-server
 web-utils.wpcli: /usr/local/bin/wp
-	$(MAKE) -f $(this-dir)/wp-cli.mk
 	touch web-utils.wpcli
 
 /usr/local/bin/cv:

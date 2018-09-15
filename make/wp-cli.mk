@@ -1,17 +1,17 @@
 
 all: install clean-up
 
-wp-cli.latest:
-	wget -q 'https://github.com/wp-cli/builds/raw/gh-pages/deb/php-wpcli_latest_all.deb' -O wp-cli.latest
-
-wp-cli.deb: wp-cli.latest
-	wget -q 'https://github.com/wp-cli/builds/raw/gh-pages/deb/'$(shell cat wp-cli.latest) -O 'wp-cli.deb'
+wp-cli.phar:
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 .PHONY: install
-install: wp-cli.deb
-	sudo dpkg -i wp-cli.deb
+install: wp-cli.phar
+	php wp-cli.phar --info
+	chmod +x wp-cli.phar
+	mv wp-cli.phar /usr/local/bin/wp
+	# verify:
+	wp --info
 
 .PHONY: clean-up
 clean-up:
-	rm -f wp-cli.deb
-	rm -f php-wpcli_latest_all.deb
+	rm -f wp-cli.phar
