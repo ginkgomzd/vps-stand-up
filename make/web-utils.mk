@@ -45,8 +45,10 @@ web-utils.wpcli: /usr/local/bin/wp
 	$(MAKE) -f $(this-dir)/wp-cli.mk
 	touch web-utils.wpcli
 
-web-utils.cv: /usr/local/bin/cv
+/usr/local/bin/cv:
 	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
+
+web-utils.cv: /usr/local/bin/cv
 	chmod 755 /usr/local/bin/cv
 	touch web-utils.cv
 
