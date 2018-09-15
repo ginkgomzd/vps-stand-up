@@ -5,7 +5,7 @@ include $(this-dir)/inc.functions.mk
 # NOTE: assume we are running composer as root:
 # --no-plugins --no-scripts to avoid third-party code
 # see https://getcomposer.org/root
-CMP_CMD := 'composer --no-plugins --no-scripts'
+CMP_CMD := composer --no-plugins --no-scripts
 
 # TODO: fix web-utils.wpcli
 install: web-utils.composer web-utils.drush8 web-utils.cv
