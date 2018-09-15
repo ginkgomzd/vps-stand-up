@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#
+# UNUSED - Legacy Reference
+#
+
 # Make sure PHP7.0 is installed
 [ ! -x /usr/bin/php7.0 ] || exit 1
 

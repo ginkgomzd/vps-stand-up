@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#
+# UNUSED - legacy reference
+#
+
   ./005-hostname	test.ginkgostreet.com		# This VPS's hostname
   ./009-tzdata 		'America/New_York'		# Time zone
   ./010-sshd-keys
