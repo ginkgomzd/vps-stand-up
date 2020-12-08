@@ -8,14 +8,18 @@ include $(this-dir)/inc.functions.mk
 CMP_CMD := composer --no-plugins --no-scripts
 
 # TODO: fix web-utils.wpcli
-install: web-utils.composer web-utils.drush8 web-utils.wpcli web-utils.cv
+install: web-utils.composer web-utils.drush8 web-utils.wpcli web-utils.cv web-utils.node
 
 web-utils.composer:
 	$(MAKE) -f $(this-dir)/composer.mk
-	touch web-utils.composer
+	touch $@
 
 web-utils.drush8: /usr/local/bin/drush web-utils.composer
-	touch web-utils.drush8
+	touch $@
+
+web-utils.node:
+	$(MAKE) -f $(this-dir)/nodejs.mk
+	touch $@
 
 # TODO: don't use composer to install drush
 # http://docs.drush.org/en/8.x/install/
