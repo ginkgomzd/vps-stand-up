@@ -67,13 +67,28 @@ ubuntu-etc-confs:
 	- rm -r $@
 	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $@
 
+# # #
+# Security
+# # #
+
+# # #
+# Main
+security: security.fail2ban bad-bot-blocker security.rkhunter
+
+security.fail2ban:
+	$(call install-pkg, fail2ban)
+	@ touch $@
+
+bad-bot-blocker:
+	- rm -rf $@
+	git clone git@github.com:ginkgostreet/bad-bot-blocker.git $@
+
+security.rkhunter:
+	$(MAKE) -f make/rkhunter.mk
+	@ touch $@
+
+
 # ~,~`
-
-security: system
-	$(MAKE) -f make/security.mk
-
-sys-utils: prereqs
-	$(MAKE) -f make/sys-utils.mk
 
 server: prereqs sys-utils
 	$(MAKE) -f make/server.mk
