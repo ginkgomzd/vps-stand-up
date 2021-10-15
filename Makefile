@@ -3,6 +3,10 @@
 
 export DEBIAN_FRONTEND ?= noninteractive
 
+# # #
+# Helper Functions
+# # #
+
 # sudo -E to preserve environment
 # i.e. DEBIAN_FRONTEND=noninteractive
 define install-pkg
@@ -21,10 +25,49 @@ define debconf-set-selection
 	echo "$1" | debconf-set-selections
 endef
 
+define keyscan
+	ssh-keyscan -H $1 >> ~/.ssh/known_hosts
 
-include make/prereq.mk
+endef
 
-include make/system.mk
+# # #
+# System Utils
+# # #
+
+KEYSCAN_HOSTS ?= github.com
+
+SYSUTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
+SYSADMIN_PACKAGES ?= unattended-upgrades bsd-mailx logrotate logwatch
+SYSCMD_PACKAGES ?= git zip unzip wget curl
+
+# # #
+# Main
+sysutil: ssh.keyscan sysutil.packages ubuntu-etc-confs
+
+# # #
+# pre-accept host-keys
+ssh.keyscan:
+	test -d ~/.ssh || mkdir ~/.ssh
+	$(foreach host,${KEYSCAN_HOSTS}, $(call keyscan, ${host}))
+	touch $@
+
+sysutil.packages:
+	$(foreach pkg,${SYSUTIL_PACKAGES},$(call install-pkg,${pkg}))
+	touch $@
+
+sysadmin.packages:
+	$(foreach pkg,${SYSADMIN_PACKAGES},$(call install-pkg,${pkg}))
+	touch $@
+
+syscmd.packages:
+	$(foreach pkg,${SYSCMD_PACKAGES},$(call install-pkg,${pkg}))
+	touch $@
+
+ubuntu-etc-confs:
+	- rm -r $@
+	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $@
+
+# ~,~`
 
 security: system
 	$(MAKE) -f make/security.mk
