@@ -22,7 +22,7 @@ define debconf-set-selection
 endef
 
 
-include make/prereqs.mk
+include make/prereq.mk
 
 system: prereqs sys-utils
 	$(MAKE) -f make/system.mk

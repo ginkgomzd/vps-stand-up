@@ -1,11 +1,11 @@
 # include file
 
-PACKAGES ?= wget git debconf-utils zip unzip curl bash-completion
+PREREQ_PACKAGES ?= wget git debconf-utils zip unzip curl bash-completion
 
-prereqs: prereqs.packages prereqs.keyscan
+prereq: prereq.packages prereq.keyscan
 
-prereqs.packages:
-	$(foreach pkg,${PACKAGES},$(call install-pgk,${pkg}))
+prereq.packages:
+	$(foreach pkg,${PREREQ_PACKAGES},$(call install-pgk,${pkg}))
 	touch $@
 
 KEYSCAN_HOSTS ?= github.com
@@ -15,7 +15,7 @@ define keyscan
 
 endef
 
-prereqs.keyscan:
+prereq.keyscan:
 	test -d ~/.ssh || mkdir ~/.ssh
 	$(foreach host,${KEYSCAN_HOSTS}, $(call keyscan, ${host}))
 	touch $@
