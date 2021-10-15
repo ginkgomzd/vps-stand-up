@@ -8,25 +8,25 @@ include $(this-dir)/inc.functions.mk
 all: sys-utils sys-utils/ubuntu-etc-confs sys-utils/backup-mysql sys-utils/env-utils sys-utils/.dkim-tools /usr/local/sbin/mysqltuner
 
 sys-utils:
-	mkdir $(@)
+	mkdir $@
 
 sys-utils/ubuntu-etc-confs:
-	- rm -r $(@)
-	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $(@)
+	- rm -r $@
+	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $@
 
 sys-utils/backup-mysql:
-	- rm -r $(@)
-	git clone git@github.com:ginkgostreet/backup-mysql.git $(@)
+	- rm -r $@
+	git clone git@github.com:ginkgostreet/backup-mysql.git $@
 
 sys-utils/env-utils:
-	- rm -r $(@)
-	git clone git@github.com:ginkgostreet/env-utils-v3.git $(@)
+	- rm -r $@
+	git clone git@github.com:ginkgostreet/env-utils-v3.git $@
 	cd sys-utils/env-utils && \
 	git checkout linode-1.0
 
 sys-utils/.dkim-tools:
 	$(call install-package, opendkim-tools)
-	@ touch $(@)
+	@ touch $@
 
 /usr/local/sbin/mysqltuner:
 	wget "http://mysqltuner.pl" -O /usr/local/sbin/mysqltuner
