@@ -1,10 +1,5 @@
-
-help:
-	@echo "\n"\
-	"\t"VPS Stand-up Script "\n\n"\
-	LAMP Server Configuration"\n"\
-	"\n"\
-	 'make stand-up' "\t"runs complete setup"\n"
+-include mdo-help.mk
+-include mdo-config.mk
 
 export DEBIAN_FRONTEND ?= noninteractive
 
