@@ -49,19 +49,19 @@ sysutil: ssh.keyscan sysutil.packages ubuntu-etc-confs
 ssh.keyscan:
 	test -d ~/.ssh || mkdir ~/.ssh
 	$(foreach host,${KEYSCAN_HOSTS}, $(call keyscan, ${host}))
-	touch $@
+	@ touch $@
 
 sysutil.packages:
 	$(foreach pkg,${SYSUTIL_PACKAGES},$(call install-pkg,${pkg}))
-	touch $@
+	@ touch $@
 
 sysadmin.packages:
 	$(foreach pkg,${SYSADMIN_PACKAGES},$(call install-pkg,${pkg}))
-	touch $@
+	@ touch $@
 
 syscmd.packages:
 	$(foreach pkg,${SYSCMD_PACKAGES},$(call install-pkg,${pkg}))
-	touch $@
+	@ touch $@
 
 ubuntu-etc-confs:
 	- rm -r $@
