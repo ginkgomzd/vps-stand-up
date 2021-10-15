@@ -24,8 +24,7 @@ endef
 
 include make/prereq.mk
 
-system: prereqs sys-utils
-	$(MAKE) -f make/system.mk
+include make/system.mk
 
 security: system
 	$(MAKE) -f make/security.mk

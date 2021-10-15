@@ -1,30 +1,7 @@
 
-this-dir := $(dir $(lastword $(MAKEFILE_LIST)))
-include $(this-dir)/inc.functions.mk
+SYSTEM_PACKAGES ?= acl unattended-upgrades bsd-mailx logrotate logwatch
 
-all: system.acl system.upgrades system.bsd-mailx \
-	system.logrotate system.logwatch
+system.packages:
+	$(foreach pkg,${SYSTEM_PACKAGES},$(call install-pgk,${pkg}))
+	touch $@
 
-system.acl:
-	$(call install-package, acl)
-	@ touch $(@)
-
-system.upgrades:
-	$(call install-package, unattended-upgrades)
-	@ touch $(@)
-
-# command-line-mode mail user agent
-system.bsd-mailx:
-	$(call install-package, bsd-mailx)
-	@ touch $(@)
-
-system.logrotate:
-	$(call install-package, logrotate)
-	@ touch $(@)
-
-system.logwatch:
-	$(call install-package, logwatch)
-	@ touch $(@)
-
-# TODO: Unclear if these packages are needed:
-# software-properties-common python-software-properties
