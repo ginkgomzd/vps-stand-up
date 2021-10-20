@@ -101,12 +101,14 @@ web-server:
 	@ touch $@
 
 
-# ~,~`
+# # #
+# PHP
+# # #
 
-web-utils: prereqs
-	$(MAKE) -f make/web-utils.mk
+php-sdks:
+	$(MAKE) -f make/php-sdks.mk
 
-stand-up: system sys-utils web-server security
+stand-up: sysutil security web-server php-sdks
 	$(MAKE) -f make/conf.system.mk
 	@ touch conf.system
 	$(MAKE) -f make/conf.security.mk
