@@ -87,16 +87,26 @@ security.rkhunter:
 	$(MAKE) -f make/rkhunter.mk
 	@ touch $@
 
+# # #
+# Web Server
+
+web-server:
+	apt-get update
+	apt-get install -y apache2
+	apachectl start
+	# apache-mods:
+	a2enmod rewrite
+	a2enmod ssl
+	apachectl restart
+	@ touch $@
+
 
 # ~,~`
-
-server: prereqs sys-utils
-	$(MAKE) -f make/server.mk
 
 web-utils: prereqs
 	$(MAKE) -f make/web-utils.mk
 
-stand-up: system sys-utils server security
+stand-up: system sys-utils web-server security
 	$(MAKE) -f make/conf.system.mk
 	@ touch conf.system
 	$(MAKE) -f make/conf.security.mk
