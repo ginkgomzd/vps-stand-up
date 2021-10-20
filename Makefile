@@ -90,7 +90,9 @@ security.rkhunter:
 # # #
 # Web Server
 
-web-server:
+web-server: apache php
+
+apache:
 	apt-get update
 	apt-get install -y apache2
 	apachectl start
@@ -99,6 +101,10 @@ web-server:
 	a2enmod ssl
 	apachectl restart
 	@ touch $@
+
+php: apache
+	$(MAKE) -f make/php.mk
+	apache2ctl restart
 
 # # #
 # Web SDKs
