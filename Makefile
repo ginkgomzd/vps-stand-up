@@ -100,15 +100,35 @@ web-server:
 	apachectl restart
 	@ touch $@
 
-
 # # #
-# PHP
+# Web SDKs
 # # #
 
-php-sdks:
-	$(MAKE) -f make/php-sdks.mk
+web-sdks: /usr/local/bin/composer /usr/local/bin/wp /usr/local/bin/cv
 
-stand-up: sysutil security web-server php-sdks
+/usr/local/bin/composer:
+	$(MAKE) -f make/composer.mk
+
+/usr/local/bin/wp:
+	$(MAKE) -f make/wp-cli.mk
+
+/usr/local/bin/drush:
+	$(MAKE) -f make/drush.mk
+
+/usr/local/bin/cv:
+	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
+	chmod 755 /usr/local/bin/cv
+
+uninstall-cv: /usr/local/bin/cv
+	rm -f /usr/local/bin/cv
+	rm -f web-utils.cv
+
+/node-js:
+	$(MAKE) -f make/nodejs.mk
+	@ touch $@
+
+
+stand-up: sysutil security web-server web-sdks
 	$(MAKE) -f make/conf.system.mk
 	@ touch conf.system
 	$(MAKE) -f make/conf.security.mk

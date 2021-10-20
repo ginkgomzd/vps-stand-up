@@ -22,3 +22,9 @@ verify: check.sha384 install-composer.php
 clean-up:
 	rm check.sha384
 	rm install-composer.php
+
+.PHONY: uninstall-composer
+uninstall-composer:
+	rm -f /usr/local/bin/composer
+	rm -rf /root/.config/composer
+	rm -f web-utils.composer
