@@ -65,7 +65,7 @@ syscmd.packages:
 
 ubuntu-etc-confs:
 	- rm -r $@
-	git clone git@github.com:ginkgostreet/ubuntu-etc-confs.git $@
+	git clone https://github.com/ginkgostreet/ubuntu-etc-confs.git $@
 
 # # #
 # Security
