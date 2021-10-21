@@ -4,7 +4,7 @@
 #     if an orginal file doesn't exist, create it
 
 THE_FILE=$1
-REPO=${2:-sys-utils/ubuntu-etc-confs}
+REPO=${2:-ubuntu-etc-confs}
 BKUP=${3:-etc-backups}
 TS=`date +"%Y%m%d.%H%M"`
 CP='cp -a'
