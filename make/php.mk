@@ -7,12 +7,12 @@
 install: repository apache-module extensions
 
 repository:
-	apt install software-properties-common
+	apt install -y software-properties-common
 	add-apt-repository ppa:ondrej/php
 
 apache-module:
 	apt update
-	apt install php8.0 libapache2-mod-php8.0
+	apt install -y php8.0 libapache2-mod-php8.0
 
 extensions:
-	apt install php8.0-mysql php8.0-gd
+	apt install -y php8.0-mysql php8.0-gd
