@@ -1,5 +1,5 @@
 
-CHECK_SHA384 := $(shell wget -q https://composer.github.io/installer.sig -O -)
+CHECK_SHA384 := $(shell curl https://composer.github.io/installer.sig)
 INSTALL_PATH := '/usr/local/bin'
 
 all: install clean-up
@@ -9,7 +9,7 @@ install: verify install-composer.php
 	php install-composer.php --install-dir=$(INSTALL_PATH) --filename=composer
 
 install-composer.php:
-		wget -q 'https://getcomposer.org/installer' -O 'install-composer.php'
+		curl 'https://getcomposer.org/installer' -o 'install-composer.php'
 
 check.sha384:
 	echo $(CHECK_SHA384) install-composer.php > check.sha384
