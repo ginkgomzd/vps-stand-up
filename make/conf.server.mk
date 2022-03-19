@@ -5,7 +5,7 @@ include $(this-dir)/inc.functions.mk
 REPLACE_CMD := $(this-dir)../bin/replace_file
 PATCH_FILE_CMD := $(this-dir)../bin/patch_file
 
-all: conf.server.mysql conf.server.postfix conf.server.dkim
+all: conf.server.postfix conf.server.dkim
 
 conf.server.mysql:
 	$(MAKE) -f $(this-dir)conf.server.mysql.mk
