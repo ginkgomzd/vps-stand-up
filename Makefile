@@ -1,29 +1,51 @@
 -include mdo-help.mk
 -include mdo-config.mk
 
-export DEBIAN_FRONTEND ?= noninteractive
+include .env
 
 # # #
 # Helper Functions
 # # #
 
+export DEBIAN_FRONTEND ?= noninteractive
+
 # sudo -E to preserve environment
 # i.e. DEBIAN_FRONTEND=noninteractive
-define install-pkg
+export define install-pkg
 	dpkg -s $1 >/dev/null || sudo -E apt-get -y install $1
 
 endef
 
-# Example: note escaping of "${distro_codename}",
+export REPLACE_ETC := bin/replace_etc_file
+
+export PATCH_FILE_CMD := bin/patch_file
+
+# Example from unattended-upgrades.mk: note escaping of "${distro_codename}",
 # unattended-upgrades/enable_auto_updates := unattnded-upgrades unattended-upgrades/enable_auto_updates	boolean	true
 # unattended-upgrades/origins_pattern := unattended-upgrades unattended-upgrades/origins_pattern	string "origin=Debian,codename=\$${distro_codename},label=Debian-Security"
 #
 # conf.system.updates:
 # 	$(call debconf-set-selection, $(unattended-upgrades/enable_auto_updates))
 # 	$(call debconf-set-selection, $(unattended-upgrades/origins_pattern))
-define debconf-set-selection
+export define debconf-set-selection
 	echo "$1" | debconf-set-selections
 endef
+
+pkg.%:
+	$(call install-pkg,${*}))
+	@ touch $@
+
+# # #
+# MAIN()
+# # #
+standup: system security web-server web-sdk
+
+# # #
+# SYSTEM
+# # #
+system: ssh.keyscan ubuntu-etc-confs packages.sysutil packages.syscmd
+
+KEYSCAN_HOSTS ?= github.com
 
 define keyscan
 	ssh-keyscan -H $1 >> ~/.ssh/known_hosts
@@ -31,66 +53,75 @@ define keyscan
 endef
 
 # # #
-# System Utils
-# # #
-
-KEYSCAN_HOSTS ?= github.com
-
-SYSUTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
-SYSADMIN_PACKAGES ?= unattended-upgrades bsd-mailx
-SYSCMD_PACKAGES ?= git zip unzip wget curl
-
-# # #
-# Main
-sysutil: ssh.keyscan sysutil.packages ubuntu-etc-confs
-
-# # #
 # pre-accept host-keys
+# no-longer really necessary, but maybe still nice to have:
+#
 ssh.keyscan:
 	test -d ~/.ssh || mkdir ~/.ssh
 	$(foreach host,${KEYSCAN_HOSTS}, $(call keyscan, ${host}))
 	@ touch $@
 
-sysutil.packages:
-	$(foreach pkg,${SYSUTIL_PACKAGES},$(call install-pkg,${pkg}))
+SYS_UTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
+
+packages.systutil: $(foreach ${pkg},${SYSUTIL_PACKAGES},pkg.${pkg})
 	@ touch $@
 
-sysadmin.packages:
-	$(foreach pkg,${SYSADMIN_PACKAGES},$(call install-pkg,${pkg}))
-	@ touch $@
+SYS_CMD_PACKAGES ?= git zip unzip wget curl bsd-mailx s-nail pandoc
 
-syscmd.packages:
-	$(foreach pkg,${SYSCMD_PACKAGES},$(call install-pkg,${pkg}))
+packages.syscmd: $(foreach ${pkg},${SYS_CMD_PACKAGES},pkg.${pkg})
 	@ touch $@
 
 ubuntu-etc-confs:
 	- rm -r $@
 	git clone https://github.com/ginkgostreet/ubuntu-etc-confs.git $@
+	cd $@ && git checkout ${STANDUP_ETC_CONF_VERSION}
 
-# # #
-# Security
-# # #
-
-# # #
-# Main
-security: security.fail2ban bad-bot-blocker security.rkhunter
-
-security.fail2ban:
-	$(call install-pkg, fail2ban)
+unattended-upgrades:
+	$(MAKE) -f make/unattended-upgrades.mk
 	@ touch $@
 
-bad-bot-blocker:
-	- rm -rf $@
-	git clone git@github.com:ginkgostreet/bad-bot-blocker.git $@
+system.timezone:
+	ln -fs /usr/share/zoneinfo/${STANDUP_TIMEZONE} /etc/localtime
+	dpkg-reconfigure -f noninteractive tzdata
+	@ touch $@
 
-security.rkhunter:
+# TODO:
+# system.custom-logo:
+# 	${REPLACE_ETC} gsl-motd-logo.txt
+# 	${REPLACE_ETC} update-motd.d/00-0logo
+# 	$(call install-package, fortunes)
+# 	$(call install-package, fortunes-bofh-excuses)
+# 	$(call install-package, fortune-mod)
+# 	$(call install-package, fortunes-min)
+# 	@ touch $@
+
+# # #
+# SECURITY
+# # #
+security: fail2ban bad-bot-blocker rkhunter
+
+# TODO:
+# conf.system.sudoers:
+# 	test -d /etc/sudoers.d || exit 1
+# 	${REPLACE_ETC} sudoers.d/logging
+# 	${REPLACE_ETC} sudoers.d/maint
+# 	@ touch $@
+
+fail2ban:
+	$(MAKE) -f make/fail2ban.mk
+
+bad-bot-blocker:
+	$(MAKE) -f make/bad-bot-blocker.mk
+	@ touch $@
+
+rkhunter:
 	$(MAKE) -f make/rkhunter.mk
 	@ touch $@
 
 # # #
-# Web Server
-
-web-server: apache php
+# WEB SERVER
+# # #
+web-server: apache php mysql-client postfix dkim
 
 apache:
 	apt-get update
@@ -106,14 +137,33 @@ php: apache
 	$(MAKE) -f make/php.mk
 	apache2ctl restart
 
-# # #
-# Web SDKs
-# # #
+mysql-client:
+	$(call install-pkg,mysql-client)
+	@ touch $@
 
-web-sdks: /usr/local/bin/composer /usr/local/bin/wp /usr/local/bin/cv
+postfix:
+	$(MAKE) -f make/postfix.mk
+	@ touch $@
+
+dkim: postfix
+	$(MAKE) -f make/dkim.mk
+	@ touch $@
+
+# # #
+# WEB SDK
+# # #
+web-sdk: /usr/local/bin/composer node-js
 
 /usr/local/bin/composer:
 	$(MAKE) -f make/composer.mk
+
+node-js:
+	$(MAKE) -f make/nodejs.mk
+	@ touch $@
+
+#
+# SDKs Not installed by default:
+#
 
 /usr/local/bin/wp:
 	$(MAKE) -f make/wp-cli.mk
@@ -124,20 +174,3 @@ web-sdks: /usr/local/bin/composer /usr/local/bin/wp /usr/local/bin/cv
 /usr/local/bin/cv:
 	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
 	chmod 755 /usr/local/bin/cv
-
-uninstall-cv: /usr/local/bin/cv
-	rm -f /usr/local/bin/cv
-	rm -f web-utils.cv
-
-/node-js:
-	$(MAKE) -f make/nodejs.mk
-	@ touch $@
-
-
-stand-up: sysutil security web-server web-sdks
-	$(MAKE) -f make/conf.system.mk
-	@ touch conf.system
-	$(MAKE) -f make/conf.security.mk
-	@ touch conf.security
-	$(MAKE) -f make/conf.server.mk
-	@ touch conf.server

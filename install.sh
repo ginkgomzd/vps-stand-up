@@ -19,3 +19,4 @@ pushd /var/src/make-do
 make install
 popd 2>/dev/null
 
+echo 'TODO: Create an .env file. See example.env...'
