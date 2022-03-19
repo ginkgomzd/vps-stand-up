@@ -11,12 +11,12 @@ test -d ~/.ssh || mkdir ~/.ssh
 
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-pushd /var/src/
+cd /var/src/
 git clone https://github.com/ginkgomzd/make-do.git
-popd 2>/dev/null
+cd -
 
-pushd /var/src/make-do
+cd /var/src/make-do
 make install
-popd 2>/dev/null
+cd -
 
 echo 'TODO: Create an .env file. See example.env...'
