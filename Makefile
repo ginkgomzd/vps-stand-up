@@ -43,7 +43,7 @@ standup: system security web-server web-sdk
 # # #
 # SYSTEM
 # # #
-system: ssh.keyscan ubuntu-etc-confs packages.sysutil packages.syscmd
+system: ssh.keyscan ubuntu-etc-confs packages.sysutil packages.syscmd ubuntu-etc-confs system.timezone unattended-upgrades
 
 KEYSCAN_HOSTS ?= github.com
 
