@@ -1,11 +1,10 @@
 
-conf.fail2ban: pkg.fail2ban
-	${REPLACE_ETC} fail2ban/paths-overrides.local
+#
+# https://linuxize.com/post/install-configure-fail2ban-on-ubuntu-20-04/
+#
+
+conf.fail2ban:
 	${REPLACE_ETC} fail2ban/jail.local
 	${REPLACE_ETC} fail2ban/filter.d
-	sudo service fail2ban restart
-	@ touch $@
-
-pkg.fail2ban:
-	$(call install-pkg, fail2ban)
+	systemctl restart fail2ban
 	@ touch $@

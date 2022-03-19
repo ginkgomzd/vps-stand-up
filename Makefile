@@ -16,6 +16,10 @@ export define install-pkg
 
 endef
 
+%.pkg:
+	$(call install-pkg,${*})
+	@ touch $@
+
 export REPLACE_ETC := bin/replace_etc_file
 
 export PATCH_FILE_CMD := bin/patch_file
@@ -30,10 +34,6 @@ export PATCH_FILE_CMD := bin/patch_file
 export define debconf-set-selection
 	echo "$1" | debconf-set-selections
 endef
-
-pkg.%:
-	$(call install-pkg,${*})
-	@ touch $@
 
 # # #
 # MAIN()
@@ -59,16 +59,14 @@ endef
 ssh.keyscan:
 	test -d ~/.ssh || mkdir ~/.ssh
 	$(foreach host,${KEYSCAN_HOSTS}, $(call keyscan, ${host}))
-	@ touch $@
 
 SYS_UTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
 
-packages.sysutil: $(foreach pkg,${SYSUTIL_PACKAGES},pkg.${pkg})
-	@ touch $@
+packages.sysutil: $(foreach pkg,${SYSUTIL_PACKAGES},${pkg}.pkg)
 
 SYS_CMD_PACKAGES ?= zip unzip wget curl bsd-mailx s-nail pandoc
 
-packages.syscmd: $(foreach pkg,${SYS_CMD_PACKAGES}, pkg.${pkg})
+packages.syscmd: $(foreach pkg,${SYS_CMD_PACKAGES},${pkg}.pkg)
 	@ touch $@
 
 ubuntu-etc-confs:
@@ -76,14 +74,12 @@ ubuntu-etc-confs:
 	git clone https://github.com/ginkgostreet/ubuntu-etc-confs.git $@
 	cd $@ && git checkout ${STANDUP_ETC_CONF_VERSION}
 
-unattended-upgrades:
+unattended-upgrades: unattended-upgrades.pkg
 	$(MAKE) -f make/unattended-upgrades.mk
-	@ touch $@
 
 system.timezone:
 	ln -fs /usr/share/zoneinfo/${STANDUP_TIMEZONE} /etc/localtime
 	dpkg-reconfigure -f noninteractive tzdata
-	@ touch $@
 
 # TODO:
 # system.custom-logo:
@@ -107,16 +103,14 @@ security: fail2ban bad-bot-blocker rkhunter
 # 	${REPLACE_ETC} sudoers.d/maint
 # 	@ touch $@
 
-fail2ban:
+fail2ban: fail2ban.pkg
 	$(MAKE) -f make/fail2ban.mk
 
 bad-bot-blocker:
 	$(MAKE) -f make/bad-bot-blocker.mk
-	@ touch $@
 
-rkhunter:
+rkhunter: rkhunter.pkg
 	$(MAKE) -f make/rkhunter.mk
-	@ touch $@
 
 # # #
 # WEB SERVER
@@ -131,23 +125,20 @@ apache:
 	a2enmod rewrite
 	a2enmod ssl
 	apachectl restart
-	@ touch $@
+	@ touch $@.pkg
 
 php: apache
 	$(MAKE) -f make/php.mk
 	apache2ctl restart
+	@ touch $@.pkg
 
-mysql-client:
-	$(call install-pkg,mysql-client)
-	@ touch $@
+mysql-client: mysql-client.pkg
 
-postfix:
+postfix: postfix.pkg
 	$(MAKE) -f make/postfix.mk
-	@ touch $@
 
 dkim: postfix
 	$(MAKE) -f make/dkim.mk
-	@ touch $@
 
 # # #
 # WEB SDK
@@ -159,7 +150,6 @@ web-sdk: /usr/local/bin/composer node-js
 
 node-js:
 	$(MAKE) -f make/nodejs.mk
-	@ touch $@
 
 #
 # SDKs Not installed by default:
@@ -174,3 +164,19 @@ node-js:
 /usr/local/bin/cv:
 	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
 	chmod 755 /usr/local/bin/cv
+
+reset:
+	rm *.pkg
+	rm conf.*
+
+# # #
+# TODOs:
+# deploy CloudFlare Certs
+# configure logo (muy importante!)
+# configure apache SSL w/ redirect from :80
+# 	https://linuxconfig.org/how-to-use-apache-to-redirect-all-traffic-from-http-to-https
+# 	over-write keys:
+# 		/etc/ssl/certs/ssl-cert-snakeoil.pem
+# 		/etc/ssl/private/ssl-cert-snakeoil.key
+
+# mount htdocs  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html
