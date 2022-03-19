@@ -37,7 +37,7 @@ endef
 KEYSCAN_HOSTS ?= github.com
 
 SYSUTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
-SYSADMIN_PACKAGES ?= unattended-upgrades bsd-mailx logrotate logwatch
+SYSADMIN_PACKAGES ?= unattended-upgrades bsd-mailx
 SYSCMD_PACKAGES ?= git zip unzip wget curl
 
 # # #
