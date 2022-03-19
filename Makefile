@@ -32,7 +32,7 @@ export define debconf-set-selection
 endef
 
 pkg.%:
-	$(call install-pkg,${*}))
+	$(call install-pkg,${*})
 	@ touch $@
 
 # # #
@@ -63,12 +63,12 @@ ssh.keyscan:
 
 SYS_UTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
 
-packages.systutil: $(foreach ${pkg},${SYSUTIL_PACKAGES},pkg.${pkg})
+packages.sysutil: $(foreach pkg,${SYSUTIL_PACKAGES},pkg.${pkg})
 	@ touch $@
 
-SYS_CMD_PACKAGES ?= git zip unzip wget curl bsd-mailx s-nail pandoc
+SYS_CMD_PACKAGES ?= zip unzip wget curl bsd-mailx s-nail pandoc
 
-packages.syscmd: $(foreach ${pkg},${SYS_CMD_PACKAGES},pkg.${pkg})
+packages.syscmd: $(foreach pkg,${SYS_CMD_PACKAGES}, pkg.${pkg})
 	@ touch $@
 
 ubuntu-etc-confs:
