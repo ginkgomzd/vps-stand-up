@@ -5,7 +5,7 @@ include $(this-dir)/inc.functions.mk
 REPLACE_CMD := $(this-dir)../bin/replace_file
 PATCH_FILE_CMD := $(this-dir)../bin/patch_file
 
-all: conf.server.mysql conf.server.sshd.keys conf.server.sshd.port conf.server.postfix conf.server.dkim
+all: conf.server.mysql conf.server.postfix conf.server.dkim
 
 conf.server.mysql:
 	$(MAKE) -f $(this-dir)conf.server.mysql.mk
@@ -44,32 +44,4 @@ conf.server.postfix:
 
 conf.server.dkim: conf.server.postfix
 	$(MAKE) -f make/conf.server.dkim.mk
-	@ touch $(@)
-
-.PHONY: back-up-sshd-keys
-back-up-sshd-keys:
-	- mkdir -p sshd.keys/etc/ssh
-	for KEYFILE in `ls -1 /etc/ssh/ssh_host*key*`; \
-	do \
-		mv $$KEYFILE sshd.keys$$KEYFILE-$(shell date +"%Y%m%d.%H%M");\
-	done
-
-conf.server.sshd.keys: back-up-sshd-keys
-	ssh-keygen -f /etc/ssh/ssh_host_rsa_key     -N '' -t rsa
-	ssh-keygen -f /etc/ssh/ssh_host_dsa_key     -N '' -t dsa
-	ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key   -N '' -t ecdsa
-	ssh-keygen -f /etc/ssh/ssh_host_ed22519_key -N '' -t ed25519
-	service sshd restart
-	@ touch $(@)
-
-conf.server.sshd.port:
-	$(REPLACE_CMD) ssh/port22-deprecated.txt
-	$(REPLACE_CMD) ssh/sshd_config
-	service sshd restart
-	@ touch $(@)
-
-# TODO: interactive; Not included in target, all
-conf.server.ssl:
-	nslookup $(STANDUP_FQDN).
-	certbot --apache --allow-subset-of-names -d $(STANDUP_FQDN) --webroot-path /var/www/html
 	@ touch $(@)
