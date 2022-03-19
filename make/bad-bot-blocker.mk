@@ -10,13 +10,14 @@
 update: conf.bad-bot-blocker
 	cd ${APACHE_ULTIMATE_BBB} && git pull
 	cp ${APACHE_ULTIMATE_BBB}/custom.d/globalblacklist.conf ${APACHE_CONF}/custom.d/globalblacklist.conf
-	$(shell echo "$$INSTALL_HELP")
+	$(info ${INSTALL_HELP})
 
 APACHE_CONF ?= /etc/apache2
-APACHE_ULTIMATE_BBB ?= /var/src/apache-ultimate-bad-bot-blocker/Apache_2.4
+APACHE_ULTIMATE_BBB ?= ./apache-ultimate-bad-bot-blocker/Apache_2.4
 
 define au-bbb-cp-custom
-	test -f ${APACHE_CONF}/custom.d/$1 || cp ${APACHE_ULTIMATE_BBB}/custom.d/$1 ${APACHE_CONF}/custom.d/$1
+	$(eval filename := $(shell basename $1))
+	test -f ${APACHE_CONF}/custom.d/${filename} || cp ${APACHE_ULTIMATE_BBB}/custom.d/${filename} ${APACHE_CONF}/custom.d/${filename}
 
 endef
 
@@ -36,7 +37,7 @@ apache-ultimate-bad-bot-blocker:
 # From the README:
 #
 
-export define INSTALL_HELP:
+define INSTALL_HELP
 ************************************************
 <img src="https://github.com/mitchellkrogza/apache-ultimate-bad-bot-blocker/blob/master/.assets/step-6.png"/>
 
@@ -50,8 +51,8 @@ Include the globalblacklist.conf file in the beginning of a directory block just
 	ServerName local.dev
     ServerAlias www.local.dev
 	DocumentRoot /var/www/html
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	ErrorLog $${APACHE_LOG_DIR}/error.log
+	CustomLog $${APACHE_LOG_DIR}/access.log combined
 
 		<Directory "/var/www/html">
     		AllowOverride All

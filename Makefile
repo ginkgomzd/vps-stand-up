@@ -172,6 +172,7 @@ reset:
 # # #
 # TODOs:
 # deploy CloudFlare Certs
+# auto-update bad-bot-blocker cron (see README)
 # configure logo (muy importante!)
 # configure apache SSL w/ redirect from :80
 # 	https://linuxconfig.org/how-to-use-apache-to-redirect-all-traffic-from-http-to-https
