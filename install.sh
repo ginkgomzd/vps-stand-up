@@ -11,9 +11,11 @@ test -d ~/.ssh || mkdir ~/.ssh
 
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
+pushd /var/src/
 git clone https://github.com/ginkgomzd/make-do.git
+popd 2>/dev/null
 
-pushd make-do
+pushd /var/src/make-do
 make install
 popd 2>/dev/null
 
