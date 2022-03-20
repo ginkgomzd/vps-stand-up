@@ -24,17 +24,6 @@ export REPLACE_ETC := bin/replace_etc_file
 
 export PATCH_FILE_CMD := bin/patch_file
 
-# Example from unattended-upgrades.mk: note escaping of "${distro_codename}",
-# unattended-upgrades/enable_auto_updates := unattnded-upgrades unattended-upgrades/enable_auto_updates	boolean	true
-# unattended-upgrades/origins_pattern := unattended-upgrades unattended-upgrades/origins_pattern	string "origin=Debian,codename=\$${distro_codename},label=Debian-Security"
-#
-# conf.system.updates:
-# 	$(call debconf-set-selection, $(unattended-upgrades/enable_auto_updates))
-# 	$(call debconf-set-selection, $(unattended-upgrades/origins_pattern))
-export define debconf-set-selection
-	echo "$1" | debconf-set-selections
-endef
-
 # # #
 # MAIN()
 # # #
@@ -62,12 +51,11 @@ ssh.keyscan:
 
 SYS_UTIL_PACKAGES ?= acl debconf-utils bash-completion opendkim-tools
 
-packages.sysutil: $(foreach pkg,${SYSUTIL_PACKAGES},${pkg}.pkg)
+packages.sysutil: $(foreach pkg,${SYS_UTIL_PACKAGES},${pkg}.pkg)
 
 SYS_CMD_PACKAGES ?= zip unzip wget curl bsd-mailx s-nail pandoc
 
 packages.syscmd: $(foreach pkg,${SYS_CMD_PACKAGES},${pkg}.pkg)
-	@ touch $@
 
 ubuntu-etc-confs:
 	- rm -r $@
