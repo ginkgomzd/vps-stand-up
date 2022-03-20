@@ -1,4 +1,9 @@
 
+#
+# NEEDS WORK!
+#
+
+
 HOST_SELECTOR ?= $(shell hostname -s )
 HOST_DOMAIN ?= $(shell hostname -d )
 
@@ -20,7 +25,8 @@ conf.dkim.deploy-keys: dkim/${HOST_SELECTOR}.private dkim/${HOST_SELECTOR}.txt
 	cp ./dkim/${HOST_SELECTOR}.private /etc/dkimkeys/${HOST_SELECTOR}.private
 	echo "${HOST_SELECTOR}._domainkey.${HOST_DOMAIN}	${HOST_DOMAIN}:${HOST_DOMAIN}:/etc/dkimkeys/${HOST_SELECTOR}.private" >> /etc/opendkim/keyfile
 	echo "*@${HOST_DOMAIN}	${HOST_SELECTOR}._domainkey.${HOST_DOMAIN}" >> /etc/opendkim/signing
-	chown -R opendkim:opendkim /etc/dkimkeys /etc/opendkim
+	# not working on Ubuntu 20.04:
+	# chown -R opendkim:opendkim /etc/dkimkeys /etc/opendkim
 	@ touch $@
 
 define postfix.dkim

@@ -103,7 +103,7 @@ rkhunter: rkhunter.pkg
 # # #
 # WEB SERVER
 # # #
-web-server: apache php mysql-client postfix dkim
+web-server: apache php mysql-client postfix
 
 apache:
 	apt-get update
@@ -125,8 +125,9 @@ mysql-client: mysql-client.pkg
 postfix: postfix.pkg
 	$(MAKE) -f make/postfix.mk
 
-dkim: postfix
-	$(MAKE) -f make/dkim.mk
+# TODO: 
+# dkim: postfix 
+# 	$(MAKE) -f make/dkim.mk
 
 # # #
 # WEB SDK
