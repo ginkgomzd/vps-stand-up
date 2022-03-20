@@ -1,4 +1,6 @@
 
+include functions.mk
+
 # resources:
 # https://blog.eldernode.com/install-rkhunter-on-ubuntu/ (20.04)
 # https://www.vultr.com/docs/how-to-install-rkhunter-on-ubuntu (16.04)

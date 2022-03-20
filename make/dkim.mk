@@ -1,4 +1,6 @@
 
+include functions.mk
+
 #
 # NEEDS WORK!
 #

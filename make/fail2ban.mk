@@ -1,4 +1,6 @@
 
+include functions.mk
+
 #
 # https://linuxize.com/post/install-configure-fail2ban-on-ubuntu-20-04/
 #

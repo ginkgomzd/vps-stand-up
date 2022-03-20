@@ -1,4 +1,6 @@
 
+include functions.mk
+
 postfix/protocols := postfix	postfix/protocols	select	all
 postfix/root_address := postfix	postfix/root_address	string	ayudame@caracolazul.dev
 postfix/procmail := postfix	postfix/procmail	boolean	false
@@ -12,10 +14,6 @@ postfix/mynetworks := postfix	postfix/mynetworks	string	127.0.0.0/8 [::ffff:127.
 postfix/main_mailer_type := postfix	postfix/main_mailer_type	select	Internet Site
 postfix/mailname := postfix	postfix/mailname	string	${STANDUP_FQDN}
 postfix/main_cf_conversion_warning := postfix	postfix/main_cf_conversion_warning	boolean	true
-
-define debconf-set-selection
-	echo '$1' | debconf-set-selections
-endef
 
 conf.postfix:
 	$(call debconf-set-selection,${postfix/protocols})

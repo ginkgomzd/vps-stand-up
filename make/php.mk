@@ -3,6 +3,8 @@
 # https://linuxize.com/post/how-to-install-php-8-on-ubuntu-20-04/
 #
 
+include functions.mk
+
 install: repository apache-module extensions
 
 repository:
