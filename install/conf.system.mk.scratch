@@ -1,0 +1,26 @@
+
+REPLACE_ETC := $(this-dir)../bin/replace_file
+
+all: conf.system.hostname conf.system.gsl-logo conf.system.sudoers conf.system.logwatch conf.system.upgrades
+
+conf.system.hostname:
+	# [ "$H" != \*"."\* ] && H="$H.ginkgostreet.com" # This doesn't work
+	hostnamectl set-hostname $(STANDUP_FQDN)
+	echo "127.0.1.1	$H	$( hostname --short )" >> /etc/hosts
+	domainname $(STANDUP_DOMAIN)
+	@ touch $(@)
+
+
+
+.PHONY: logwatch.conf
+logwatch.conf:
+	test -d /etc/logwatch/conf || exit 1
+	${REPLACE_ETC} logwatch/conf/logwatch.conf
+	${REPLACE_ETC} logwatch/conf/logfiles/http.conf
+	${REPLACE_ETC} logwatch/conf/logfiles/http-error.conf
+
+.PHONY: logwatch.scripts
+logwatch.scripts:
+	test -d /etc/logwatch/scripts/services || exit 1
+	${REPLACE_ETC} logwatch/scripts/services/sshd
+	${REPLACE_ETC} logwatch/scripts/services/sudo

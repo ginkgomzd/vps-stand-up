@@ -3,7 +3,7 @@
 
 include .env
 
-include make/functions.mk
+include functions.mk
 
 # # #
 # MAIN()
@@ -44,7 +44,7 @@ ubuntu-etc-confs:
 	cd $@ && git checkout ${STANDUP_ETC_CONF_VERSION}
 
 unattended-upgrades: unattended-upgrades.pkg
-	$(MAKE) -f make/unattended-upgrades.mk
+	$(MAKE) -f install/unattended-upgrades.mk
 
 system.timezone:
 	ln -fs /usr/share/zoneinfo/${STANDUP_TIMEZONE} /etc/localtime
@@ -73,13 +73,13 @@ security: fail2ban bad-bot-blocker rkhunter
 # 	@ touch $@
 
 fail2ban: fail2ban.pkg
-	$(MAKE) -f make/fail2ban.mk
+	$(MAKE) -f install/fail2ban.mk
 
 bad-bot-blocker:
-	$(MAKE) -f make/bad-bot-blocker.mk
+	$(MAKE) -f install/bad-bot-blocker.mk
 
 rkhunter: rkhunter.pkg
-	$(MAKE) -f make/rkhunter.mk
+	$(MAKE) -f install/rkhunter.mk
 
 # # #
 # WEB SERVER
@@ -97,18 +97,18 @@ apache:
 	@ touch $@.pkg
 
 php: apache.pkg
-	$(MAKE) -f make/php.mk
+	$(MAKE) -f install/php.mk
 	apache2ctl restart
 	@ touch $@.pkg
 
 mysql-client: mysql-client.pkg
 
 postfix: postfix.pkg
-	$(MAKE) -f make/postfix.mk
+	$(MAKE) -f install/postfix.mk
 
 # TODO: 
 # dkim: postfix 
-# 	$(MAKE) -f make/dkim.mk
+# 	$(MAKE) -f install/dkim.mk
 
 # # #
 # WEB SDK
@@ -116,20 +116,20 @@ postfix: postfix.pkg
 web-sdk: /usr/local/bin/composer node-js
 
 /usr/local/bin/composer:
-	$(MAKE) -f make/composer.mk
+	$(MAKE) -f install/composer.mk
 
 node-js:
-	$(MAKE) -f make/nodejs.mk
+	$(MAKE) -f install/nodejs.mk
 
 #
 # SDKs Not installed by default:
 #
 
 /usr/local/bin/wp:
-	$(MAKE) -f make/wp-cli.mk
+	$(MAKE) -f install/wp-cli.mk
 
 /usr/local/bin/drush:
-	$(MAKE) -f make/drush.mk
+	$(MAKE) -f install/drush.mk
 
 /usr/local/bin/cv:
 	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
