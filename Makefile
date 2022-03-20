@@ -127,7 +127,7 @@ apache:
 	apachectl restart
 	@ touch $@.pkg
 
-php: apache
+php: apache.pkg
 	$(MAKE) -f make/php.mk
 	apache2ctl restart
 	@ touch $@.pkg
