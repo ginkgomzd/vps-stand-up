@@ -135,6 +135,12 @@ node-js:
 	wget https://download.civicrm.org/cv/cv.phar -O /usr/local/bin/cv
 	chmod 755 /usr/local/bin/cv
 
+/usr/local/bin/wkhtmltopdf: DIST_VER := 0.12.6-1
+/usr/local/bin/wkhtmltopdf: DIST_DEB := wkhtmltox_${DIST_VER}.focal_amd64.deb
+/usr/local/bin/wkhtmltopdf:
+	curl -O -L https://github.com/wkhtmltopdf/packaging/releases/download/${DIST_VER}/${DIST_DEB}
+	apt-get install -y ./${DIST_DEB}
+
 reset:
 	rm *.pkg
 	rm conf.*
