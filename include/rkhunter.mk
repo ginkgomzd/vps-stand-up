@@ -12,7 +12,8 @@ include functions.mk
 # Enabling cron with customizations to /etc/default/rkhunter
 
 conf.rkhunter:
-	${REPLACE_ETC} default/rkhunter
+	@# if overrides are present, will copy to /etc:
+	-${REPLACE_ETC} default/rkhunter
 	-rkhunter --pkgmgr DPKG --check --skip-keypress
 	rkhunter --propupd
 	@ touch $@
