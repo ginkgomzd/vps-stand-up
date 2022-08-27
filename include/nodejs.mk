@@ -10,7 +10,7 @@ sources.list: node-source-setup.sh
 	bash ./$<
 
 install: sources.list
-	apt-get update && apt-get -y install nsolid-dubnium nsolid-console
+	apt-get update && apt-get -y install nsolid-gallium nsolid-console
 
 uninstall:
 	apt-get purge nodejs
